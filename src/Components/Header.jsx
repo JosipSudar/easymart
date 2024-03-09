@@ -1,6 +1,7 @@
 import { GrLanguage } from "react-icons/gr";
 import { IoIosArrowDown } from "react-icons/io";
 import { FaCartShopping } from "react-icons/fa6";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   return (
@@ -22,8 +23,8 @@ const Header = () => {
       </div>
       <div>
         <nav className="flex gap-3 text-xl items-center">
-          <p>Home</p>
-          <p>Products</p>
+          <Link to="/">Home</Link>
+          <Link to="/products">Products</Link>
           <p>About</p>
           <p>Contact</p>
           <p>User</p>

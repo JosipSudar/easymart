@@ -1,22 +1,24 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { FaStar } from "react-icons/fa";
+import { useParams } from "react-router-dom";
 
 const Product = () => {
+  const { id } = useParams();
   const [product, setProduct] = useState({});
 
-  const fetchProduct = async () => {
-    try {
-      const res = await axios.get(`https://dummyjson.com/products/1`);
-      setProduct(res.data);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
-
   useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        const res = await axios.get(`https://dummyjson.com/products/${id}`);
+        setProduct(res.data);
+        console.log(res.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
     fetchProduct();
-  }, []);
+  }, [id]);
 
   return (
     <>
@@ -56,10 +58,10 @@ const Product = () => {
           </div>
           <div>
             <h3 className="text-2xl my-10">Product Gallery</h3>
-            <div className="flex gap-5 overflow-x-auto">
-              <img src={product.images[0]} alt="image" />
-              <img src={product.images[1]} alt="image" />
-              <img src={product.images[2]} alt="image" />
+            <div className="flex overflow-x-auto">
+              {product.images.map((image, index) => (
+                <img src={image} alt="product" key={index} className="" />
+              ))}
             </div>
           </div>
         </main>

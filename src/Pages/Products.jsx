@@ -42,7 +42,7 @@ const Products = () => {
   };
 
   const prevPage = () => {
-    if (currentPage > 2) {
+    if (currentPage > 1) {
       currentPage--;
       fetchProducts(currentPage);
     }
@@ -88,6 +88,7 @@ const Products = () => {
                   image={product.thumbnail}
                   name={product.title}
                   price={product.price}
+                  id={product.id}
                 />
               ))}
             </div>

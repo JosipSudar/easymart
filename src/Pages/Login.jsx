@@ -1,19 +1,30 @@
 import { useState } from "react";
-import { users } from "../constants/userData";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("kminchelle");
+  const [password, setPassword] = useState("0lelplR");
+  const navigate = useNavigate();
 
-  const loginIn = () => {
-    const user = users.find(
-      (user) => user.email === email && user.password === password
-    );
-    if (user) {
-      window.location.href = "/";
-    }
-    setEmail("");
-    setPassword("");
+  const login = (e) => {
+    e.preventDefault();
+    axios
+      .post(
+        "https://dummyjson.com/auth/login",
+        { username, password },
+        { headers: { "Content-Type": "application/json" } }
+      )
+      .then((res) => {
+        console.log(res.data);
+        if (res.data.token) {
+          localStorage.setItem("token", res.data.token);
+          navigate("/");
+        } else {
+          console.log("Token not found in response:", res.data);
+        }
+      })
+      .catch((error) => console.log(error));
   };
 
   return (
@@ -24,7 +35,7 @@ const Login = () => {
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl ">
               Sign in to your account
             </h1>
-            <form className="space-y-4 md:space-y-6" onSubmit={loginIn}>
+            <form className="space-y-4 md:space-y-6" onSubmit={login}>
               <div>
                 <label
                   htmlFor="email"
@@ -33,13 +44,13 @@ const Login = () => {
                   Your email
                 </label>
                 <input
-                  type="email"
+                  type="text"
                   name="email"
                   id="email"
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 "
                   placeholder="name@company.com"
-                  required
-                  onChange={(e) => setEmail(e.target.value)}
+                  required // Add value attribute
+                  onChange={(e) => setUsername(e.target.value)}
                 />
               </div>
               <div>
@@ -55,7 +66,7 @@ const Login = () => {
                   id="password"
                   placeholder="••••••••"
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 "
-                  required
+                  required // Add value attribute
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </div>

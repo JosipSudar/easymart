@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { PropTypes } from "prop-types";
 import { useEffect, useState } from "react";
 
@@ -44,7 +45,7 @@ const Aside = ({ products, onFilterChange }) => {
       return true;
     });
     onFilterChange(filteredProducts);
-  }, [selectedCategories, selectedBrands, onFilterChange, products]);
+  }, [selectedCategories, selectedBrands]);
 
   return (
     <aside className=" bg-slate-300 p-5 rounded-lg">
@@ -80,12 +81,6 @@ const Aside = ({ products, onFilterChange }) => {
             </div>
           )
         )}
-      </div>
-      <hr className="my-5" />
-      <div>
-        <h3 className="text-xl font-bold">Filter by price</h3>
-        <p className="text-gray-500">Price Range</p>
-        <input type="range" id="price" />
       </div>
     </aside>
   );

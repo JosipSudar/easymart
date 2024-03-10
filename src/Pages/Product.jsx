@@ -22,7 +22,7 @@ const Product = () => {
 
   return (
     <>
-      {product && (
+      {product?.id && (
         <main className="max-w-7xl mx-auto my-20">
           <div className="flex gap-10">
             <div className="w-2/3">
@@ -58,9 +58,9 @@ const Product = () => {
           </div>
           <div>
             <h3 className="text-2xl my-10">Product Gallery</h3>
-            <div className="flex overflow-x-auto">
-              {product.images.map((image, index) => (
-                <img src={image} alt="product" key={index} className="" />
+            <div className="flex overflow-x-auto h-60">
+              {product?.images.map((image, index) => (
+                <img src={image} alt="product" key={index} className="w-1/3" />
               ))}
             </div>
           </div>

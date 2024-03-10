@@ -19,6 +19,7 @@ const Products = () => {
       setAllProducts(res.data.products);
       setFilteredProducts(paginatedProducts);
       setIsLoading(false);
+      console.log(res.data.products);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -42,10 +43,8 @@ const Products = () => {
   };
 
   const prevPage = () => {
-    if (currentPage > 1) {
-      currentPage--;
-      fetchProducts(currentPage);
-    }
+    currentPage > 1 && currentPage--;
+    fetchProducts(currentPage);
   };
 
   const handleFilterChange = (filteredProducts) => {
@@ -82,24 +81,25 @@ const Products = () => {
               />
             </div>
             <div className=" w-2/3 grid grid-cols-3 gap-4 h-full">
-              {filteredProducts.map((product) => (
-                <ProductCard
-                  key={product.id}
-                  image={product.thumbnail}
-                  name={product.title}
-                  price={product.price}
-                  id={product.id}
-                />
-              ))}
+              {filteredProducts.length > 0 &&
+                filteredProducts.map((product) => (
+                  <ProductCard
+                    key={product.id}
+                    image={product.thumbnail}
+                    name={product.title}
+                    price={product.price}
+                    id={product.id}
+                  />
+                ))}
             </div>
           </div>
 
           <div className="mt-10 mb-10">
             <div className="flex flex-col items-center">
               <span className="text-sm">
-                Showing <span className="font-semibold">{currentPage}</span> to{" "}
-                <span className="font-semibold">{currentPage * pageSize}</span>{" "}
-                of <span className="font-semibold">{allProducts.length}</span>{" "}
+                Showing <span className="font-semibold">1</span> to{" "}
+                <span className="font-semibold">{pageSize}</span> of{" "}
+                <span className="font-semibold">{allProducts.length}</span>{" "}
                 Entries
               </span>
               <div className="inline-flex mt-2 xs:mt-0">

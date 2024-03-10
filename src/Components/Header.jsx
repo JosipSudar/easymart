@@ -17,16 +17,36 @@ const Header = () => {
         </div>
       </div>
       <div>
-        <h1 className=" text-3xl font-bold">
+        <Link className=" text-3xl font-bold" to="/">
           Easy<span className="text-blue-500">Mart</span>
-        </h1>
+        </Link>
       </div>
       <div>
         <nav className="flex gap-3 text-xl items-center">
-          <Link to="/">Home</Link>
-          <Link to="/products">Products</Link>
-          <p>About</p>
-          <p>Contact</p>
+          <Link
+            to="/"
+            className="hover:text-blue-500 transition duration-300 hover:underline underline-offset-8"
+          >
+            Home
+          </Link>
+          <Link
+            to="/products"
+            className="hover:text-blue-500 transition duration-300 hover:underline underline-offset-8"
+          >
+            Products
+          </Link>
+          <Link
+            to="/about"
+            className="hover:text-blue-500 transition duration-300 hover:underline underline-offset-8"
+          >
+            About
+          </Link>
+          <Link
+            to="/contact"
+            className="hover:text-blue-500 transition duration-300 hover:underline underline-offset-8"
+          >
+            Contact
+          </Link>
           <p>User</p>
           <FaCartShopping className=" relative" />
           <span className="absolute top-7 right-2 text-white bg-blue-500 rounded-full w-5 h-5 flex justify-center items-center">

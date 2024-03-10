@@ -20,6 +20,15 @@ const Product = () => {
     fetchProduct();
   }, [id]);
 
+  const addToCart = () => {
+    setTimeout(() => {
+      alert("Product added to cart!");
+      const existingCartItems = JSON.parse(localStorage.getItem("cart")) || [];
+      const updatedCartItems = [...existingCartItems, product];
+      localStorage.setItem("cart", JSON.stringify(updatedCartItems));
+    }, 1000);
+  };
+
   return (
     <>
       {product?.id && (
@@ -48,7 +57,10 @@ const Product = () => {
                 <p className="text-xl">Brand: {product.brand}</p>
                 <p className="text-xl">Category: {product.category}</p>
               </div>
-              <button className="w-full bg-blue-500 text-white rounded-md p-4">
+              <button
+                className="w-full bg-blue-500 text-white rounded-md p-4"
+                onClick={addToCart}
+              >
                 Add to cart
               </button>
             </div>

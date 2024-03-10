@@ -48,10 +48,16 @@ const Header = () => {
             Contact
           </Link>
           <p>User</p>
-          <FaCartShopping className=" relative" />
-          <span className="absolute top-7 right-2 text-white bg-blue-500 rounded-full w-5 h-5 flex justify-center items-center">
-            0
-          </span>
+          <Link to="/cart">
+            <FaCartShopping className=" relative" />
+            <span className="absolute top-7 right-2 text-white bg-blue-500 rounded-full w-5 h-5 flex justify-center items-center">
+              {localStorage.getItem("cart") ? (
+                JSON.parse(localStorage.getItem("cart")).length
+              ) : (
+                <>0</>
+              )}
+            </span>
+          </Link>
         </nav>
       </div>
     </header>

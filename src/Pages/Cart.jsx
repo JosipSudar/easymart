@@ -33,13 +33,13 @@ const Cart = () => {
     <main className="max-w-7xl mx-auto my-20">
       <h1 className="text-3xl">Cart</h1>
       <hr className="border-2 border-slate-500 my-5" />
-      <div className="flex">
-        <div className="w-2/3">
+      <div className="flex flex-col">
+        <div className="flex-1">
           {cartProducts && cartProducts.length > 0 ? (
             cartProducts.map((product, index) => (
               <div
                 key={index}
-                className="flex items-center justify-between my-4"
+                className="grid grid-cols-2 border-2 border-slate-500 my-5 p-5"
               >
                 <div className="flex items-center">
                   <img
@@ -52,7 +52,7 @@ const Cart = () => {
                     <p>{product.price}$</p>
                   </div>
                 </div>
-                <div className="flex items-center">
+                <div className="flex items-center justify-around">
                   <button onClick={() => handleDecreaseQuantity(index)}>
                     <FaArrowLeft />
                   </button>
@@ -60,15 +60,52 @@ const Cart = () => {
                   <button onClick={() => handleIncreaseQuantity(index)}>
                     <FaArrowRight />
                   </button>
+                  <div className="mx-4">
+                    {product.price * product.quantity}$
+                  </div>
                 </div>
-                <div>{product.price * product.quantity}$</div>
               </div>
             ))
           ) : (
             <p>No products in the cart.</p>
           )}
         </div>
-        <div className="w-1/3 p-5">
+        <div className="">
+          <div>
+            <h2>Delivery information</h2>
+            <form>
+              <div>
+                <label>First name</label>
+                <input type="text" placeholder="First name" />
+              </div>
+              <div>
+                <label>Last name</label>
+                <input type="text" placeholder="Last name" />
+              </div>
+              <div>
+                <label>Email</label>
+                <input type="email" placeholder="example@email.com" />
+              </div>
+              <div>
+                <label>Address</label>
+                <input type="text" placeholder="Address" />
+              </div>
+              <div>
+                <label>City</label>
+                <input type="text" placeholder="City" />
+              </div>
+              <div>
+                <label>ZIP Code</label>
+                <input type="number" placeholder="ZIP" />
+              </div>
+            </form>
+          </div>
+          <div>
+            <h2>Payment method</h2>
+            <form>
+              <div></div>
+            </form>
+          </div>
           <p>
             Total:{" "}
             <span>

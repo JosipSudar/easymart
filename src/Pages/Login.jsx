@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { users } from "../constants/userData";
 
 const Login = () => {
-  const [username, setUsername] = useState("kminchelle");
-  const [password, setPassword] = useState("0lelplR");
+  const [username, setUsername] = useState(users.username);
+  const [password, setPassword] = useState(users.password);
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   const login = (e) => {
@@ -19,12 +21,18 @@ const Login = () => {
         console.log(res.data);
         if (res.data.token) {
           localStorage.setItem("token", res.data.token);
+          localStorage.setItem("username", username);
           navigate("/");
+          window.location.reload();
         } else {
           console.log("Token not found in response:", res.data);
         }
       })
       .catch((error) => console.log(error));
+  };
+
+  const handlePasswordVisibility = () => {
+    setShowPassword(!showPassword);
   };
 
   return (
@@ -38,18 +46,18 @@ const Login = () => {
             <form className="space-y-4 md:space-y-6" onSubmit={login}>
               <div>
                 <label
-                  htmlFor="email"
+                  htmlFor="username"
                   className="block mb-2 text-sm font-medium text-gray-900 "
                 >
-                  Your email
+                  Username
                 </label>
                 <input
                   type="text"
-                  name="email"
-                  id="email"
+                  name="username"
+                  id="username"
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 "
-                  placeholder="name@company.com"
-                  required // Add value attribute
+                  placeholder="kminchelle"
+                  required
                   onChange={(e) => setUsername(e.target.value)}
                 />
               </div>
@@ -61,12 +69,12 @@ const Login = () => {
                   Password
                 </label>
                 <input
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   name="password"
                   id="password"
                   placeholder="••••••••"
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 "
-                  required // Add value attribute
+                  required
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
@@ -79,11 +87,12 @@ const Login = () => {
                       type="checkbox"
                       className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 "
                       required=""
+                      onChange={() => handlePasswordVisibility()}
                     />
                   </div>
                   <div className="ml-3 text-sm">
                     <label htmlFor="remember" className="text-gray-500 ">
-                      Remember me
+                      Show password
                     </label>
                   </div>
                 </div>

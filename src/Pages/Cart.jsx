@@ -59,7 +59,7 @@ const Cart = () => {
                   <button onClick={() => handleDecreaseQuantity(index)}>
                     <FaArrowLeft />
                   </button>
-                  <span className="mx-4">{product?.quantity}</span>
+                  <span className="mx-4">{product.quantity}</span>
                   <button onClick={() => handleIncreaseQuantity(index)}>
                     <FaArrowRight />
                   </button>

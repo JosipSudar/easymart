@@ -12,7 +12,7 @@ const Products = () => {
 
   const fetchProducts = async (page) => {
     try {
-      const res = await axios.get("https://dummyjson.com/products");
+      const res = await axios.get("https://dummyjson.com/products?limit=0");
       const startIndex = (page - 1) * pageSize;
       const endIndex = startIndex + pageSize;
       const paginatedProducts = res.data.products.slice(startIndex, endIndex);

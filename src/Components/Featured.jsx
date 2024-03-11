@@ -1,9 +1,11 @@
 import { FaStar } from "react-icons/fa";
 import { PropTypes } from "prop-types";
+import { Link } from "react-router-dom";
 
-const Featured = ({ image, desc, name, price, rating }) => {
+const Featured = ({ image, desc, name, price, rating, id }) => {
   return (
-    <section
+    <Link
+      to={`/products/${id}`}
       className="flex flex-col
      items-center h-[500px] hover:scale-105"
     >
@@ -18,7 +20,7 @@ const Featured = ({ image, desc, name, price, rating }) => {
           <FaStar />
         </div>
       </div>
-    </section>
+    </Link>
   );
 };
 
@@ -28,6 +30,7 @@ Featured.propTypes = {
   name: PropTypes.string,
   price: PropTypes.string,
   rating: PropTypes.string,
+  id: PropTypes.number,
 };
 
 export default Featured;

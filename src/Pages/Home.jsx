@@ -80,6 +80,7 @@ const Home = () => {
               name={product.title}
               price={product.price}
               rating={product.rating}
+              id={product.id}
             />
           ))}
         </div>

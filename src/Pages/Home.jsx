@@ -36,6 +36,7 @@ const Home = () => {
     window.addEventListener("scroll", handleScroll);
     fetchFP();
     fetchFC();
+    document.title = "Easymart | Home";
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };

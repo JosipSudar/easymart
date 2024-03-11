@@ -49,7 +49,7 @@ const Aside = ({ products, onFilterChange }) => {
 
   return (
     <aside className=" bg-slate-300 p-5 rounded-lg">
-      <div className="">
+      <div>
         <p className="text-xl font-bold mb-3">Select a brand</p>
         {[...new Set(products.map((product) => product.brand))].map((brand) => (
           <div key={brand} className="flex flex-col my-2">

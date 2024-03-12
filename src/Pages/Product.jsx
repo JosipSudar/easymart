@@ -2,17 +2,20 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { FaStar } from "react-icons/fa";
 import { useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 const Product = () => {
   const { id } = useParams();
   const [product, setProduct] = useState({});
+  let quantity = 1;
+  const dispach = useDispatch();
 
   useEffect(() => {
     const fetchProduct = async () => {
       try {
         const res = await axios.get(`https://dummyjson.com/products/${id}`);
         setProduct(res.data);
-        console.log(res.data);
+        setProduct((prev) => ({ ...prev, quantity }));
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -21,14 +24,7 @@ const Product = () => {
   }, [id]);
 
   const addToCart = () => {
-    setTimeout(() => {
-      alert("Product added to cart!");
-      const existingCartItems = JSON.parse(localStorage.getItem("cart")) || [];
-      const newProduct = { ...product, quantity: 1 };
-      console.log(newProduct, "product");
-      const updatedCartItems = [...existingCartItems, newProduct];
-      localStorage.setItem("cart", JSON.stringify(updatedCartItems));
-    }, 1000);
+    dispach({ type: "cart/addToCart", payload: product });
   };
 
   return (
@@ -61,7 +57,7 @@ const Product = () => {
               </div>
               <button
                 className="w-full bg-blue-500 text-white rounded-md p-4"
-                onClick={addToCart}
+                onClick={() => addToCart()}
               >
                 Add to cart
               </button>

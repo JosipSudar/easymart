@@ -7,19 +7,20 @@ const Products = () => {
   const [allProducts, setAllProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 20;
-  let currentPage = 1;
 
   const fetchProducts = async (page) => {
     try {
       const res = await axios.get("https://dummyjson.com/products?limit=0");
-      const startIndex = (page - 1) * pageSize;
-      const endIndex = startIndex + pageSize;
-      const paginatedProducts = res.data.products.slice(startIndex, endIndex);
-      setAllProducts(res.data.products);
-      setFilteredProducts(paginatedProducts);
-      setIsLoading(false);
-      console.log(res.data.products);
+      if (res.data) {
+        const startIndex = page * pageSize;
+        const endIndex = startIndex + pageSize;
+        const paginatedProducts = res.data.products.slice(startIndex, endIndex);
+        setAllProducts(page === 1 ? res.data.products : allProducts);
+        setFilteredProducts(paginatedProducts);
+        setIsLoading(false);
+      }
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -38,12 +39,14 @@ const Products = () => {
   };
 
   const nextPage = () => {
-    currentPage++;
+    setCurrentPage(currentPage + 1);
     fetchProducts(currentPage);
   };
 
   const prevPage = () => {
-    currentPage > 1 && currentPage--;
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
     fetchProducts(currentPage);
   };
 
@@ -63,11 +66,11 @@ const Products = () => {
         <main className="max-w-7xl mx-auto">
           <div className="mb-10 flex justify-between items-center">
             <h1 className="text-5xl font-bold my-10">Products</h1>
-            <form className="flex gap-2">
+            <form className="flex gap-2 items-center">
               <label className="font-md">Search by name</label>
               <input
                 type="text"
-                className="border-2 border-blue-500 rounded-lg px-1"
+                className="border-2 border-blue-500 rounded-lg p-2 outline-none"
                 onChange={handleSearchInputChange}
               />
             </form>

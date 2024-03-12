@@ -3,18 +3,22 @@ import { IoIosArrowDown } from "react-icons/io";
 import { FaCartShopping } from "react-icons/fa6";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [items, setItems] = useState();
   const navigate = useNavigate();
+  const cart = useSelector((state) => state.cart);
 
   useEffect(() => {
-    localStorage.getItem("token") ? setIsLoggedIn(true) : setIsLoggedIn(false);
-    setItems(JSON.parse(localStorage.getItem("cart")));
-  }, [isLoggedIn, items]);
+    if (localStorage.getItem("token")) {
+      setIsLoggedIn(true);
+    }
+    setItems(cart.cart);
+  }, [cart, isLoggedIn]);
 
-  const Logout = () => {
+  const logout = () => {
     localStorage.removeItem("token");
     navigate("/");
     window.location.reload();
@@ -72,7 +76,7 @@ const Header = () => {
           </Link>
           {isLoggedIn ? (
             <button
-              onClick={Logout}
+              onClick={logout}
               className="hover:text-blue-500 transition duration-300 hover:underline underline-offset-8"
             >
               Logout

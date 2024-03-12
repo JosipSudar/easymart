@@ -11,24 +11,27 @@ const Login = () => {
 
   const login = (e) => {
     e.preventDefault();
-    axios
-      .post(
-        "https://dummyjson.com/auth/login",
-        { username, password },
-        { headers: { "Content-Type": "application/json" } }
-      )
-      .then((res) => {
-        console.log(res.data);
-        if (res.data.token) {
-          localStorage.setItem("token", res.data.token);
-          localStorage.setItem("username", username);
-          navigate("/");
-          window.location.reload();
-        } else {
-          console.log("Token not found in response:", res.data);
-        }
-      })
-      .catch((error) => console.log(error));
+    try {
+      axios
+        .post(
+          "https://dummyjson.com/auth/login",
+          { username, password },
+          { headers: { "Content-Type": "application/json" } }
+        )
+        .then((res) => {
+          console.log(res.data);
+          if (res.data.token) {
+            localStorage.setItem("token", res.data.token);
+            localStorage.setItem("username", username);
+            navigate("/");
+            window.location.reload();
+          } else {
+            console.log("Token not found in response:", res.data);
+          }
+        });
+    } catch (error) {
+      console.log("Error in login:", error);
+    }
   };
 
   const handlePasswordVisibility = () => {

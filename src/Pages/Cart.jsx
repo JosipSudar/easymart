@@ -4,38 +4,42 @@ import { FaArrowRight } from "react-icons/fa";
 import { FaGoogle } from "react-icons/fa";
 import { FaApple } from "react-icons/fa";
 import { FaPaypal } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  decreaseQuantity,
+  increaseQuantity,
+  removeFromCart,
+} from "../state/cart/cartSlice";
 
 const Cart = () => {
   const [cartProducts, setCartProducts] = useState([]);
   const [paymentMethod, setPaymentMethod] = useState("");
+  const cart = useSelector((state) => state.cart);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    setCartProducts(JSON.parse(localStorage.getItem("cart")) || []);
-  }, []);
+    setCartProducts(cart.cart);
+  }, [cart]);
 
-  const handleDecreaseQuantity = (index) => {
-    const updatedCartProducts = [...cartProducts];
-    if (updatedCartProducts[index].quantity > 1) {
-      updatedCartProducts[index].quantity--;
-      setCartProducts(updatedCartProducts);
-      updateLocalStorage(updatedCartProducts);
+  const handleIncreaseQuantity = (productId) => {
+    const product = cartProducts.filter((item) => item.id === productId);
+    if (product) {
+      dispatch(increaseQuantity({ id: productId }));
     }
   };
 
-  const handleIncreaseQuantity = (index) => {
-    const updatedCartProducts = [...cartProducts];
-    updatedCartProducts[index].quantity++;
-    setCartProducts(updatedCartProducts);
-    updateLocalStorage(updatedCartProducts);
+  const handleDecreaseQuantity = (productId) => {
+    const product = cartProducts.filter((item) => item.id === productId);
+    if (product) {
+      dispatch(decreaseQuantity({ id: productId }));
+    }
   };
 
-  const updateLocalStorage = (cart) => {
-    localStorage.setItem("cart", JSON.stringify(cart));
-  };
-
-  const removeProduct = (index) => {
-    updateLocalStorage(cartProducts.filter((_, i) => i !== index));
-    setCartProducts(cartProducts.filter((_, i) => i !== index));
+  const removeProduct = (productId) => {
+    const newCart = cartProducts.filter((item) => item.id !== productId);
+    if (newCart) {
+      dispatch(removeFromCart({ id: productId }));
+    }
   };
 
   return (
@@ -62,17 +66,19 @@ const Cart = () => {
                   </div>
                 </div>
                 <div className="flex items-center justify-around">
-                  <button onClick={() => handleDecreaseQuantity(index)}>
+                  <button onClick={() => handleDecreaseQuantity(product.id)}>
                     <FaArrowLeft />
                   </button>
                   <span className="mx-4">{product?.quantity}</span>
-                  <button onClick={() => handleIncreaseQuantity(index)}>
+                  <button onClick={() => handleIncreaseQuantity(product.id)}>
                     <FaArrowRight />
                   </button>
                   <div className="mx-4">
                     {product?.price * product?.quantity}$
                   </div>
-                  <button onClick={() => removeProduct(index)}>Remove</button>
+                  <button onClick={() => removeProduct(product.id)}>
+                    Remove
+                  </button>
                 </div>
               </div>
             ))

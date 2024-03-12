@@ -7,7 +7,7 @@ const ProductCard = ({ image, name, price, id }) => {
       <img
         src={image}
         alt="image"
-        className="w-full h-[200px] object-fill rounded-lg"
+        className="w-full h-[200px] object-cover rounded-lg"
       />
       <h2 className="text-md">{name}</h2>
       <p className="text-sm">{price}$</p>

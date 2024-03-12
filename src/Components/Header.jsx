@@ -82,7 +82,7 @@ const Header = () => {
               to="/login"
               className="hover:text-blue-500 transition duration-300 hover:underline underline-offset-8"
             >
-              Login
+              Login / Register
             </Link>
           )}
           <Link to="/cart">

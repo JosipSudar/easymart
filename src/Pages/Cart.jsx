@@ -35,7 +35,7 @@ const Cart = () => {
 
   const removeProduct = (index) => {
     updateLocalStorage(cartProducts.filter((_, i) => i !== index));
-    window.location.reload();
+    setCartProducts(cartProducts.filter((_, i) => i !== index));
   };
 
   return (

@@ -6,12 +6,13 @@ import { useEffect, useState } from "react";
 
 const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [items, setItems] = useState();
   const navigate = useNavigate();
 
   useEffect(() => {
     localStorage.getItem("token") ? setIsLoggedIn(true) : setIsLoggedIn(false);
-    localStorage.getItem("cart");
-  }, [isLoggedIn]);
+    setItems(JSON.parse(localStorage.getItem("cart")));
+  }, [isLoggedIn, items]);
 
   const Logout = () => {
     localStorage.removeItem("token");
@@ -87,11 +88,7 @@ const Header = () => {
           <Link to="/cart">
             <FaCartShopping className=" relative" />
             <span className="absolute top-7 right-2 text-white bg-blue-500 rounded-full w-5 h-5 flex justify-center items-center">
-              {localStorage.getItem("cart") ? (
-                JSON.parse(localStorage.getItem("cart")).length
-              ) : (
-                <>0</>
-              )}
+              {items ? items.length : 0}
             </span>
           </Link>
         </nav>

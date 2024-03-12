@@ -3,6 +3,7 @@ import { useState } from "react";
 import Featured from "../Components/Featured";
 import axios from "axios";
 import Gallery from "../Components/Gallery";
+import Newsletter from "../Components/Newsletter";
 
 const Home = () => {
   const [scrollPosition, setScrollPosition] = useState(0);
@@ -109,26 +110,7 @@ const Home = () => {
         </div>
       </div>
 
-      <div className="mt-36 bg-blue-500 py-20">
-        <div className="max-w-[1200px] mx-auto flex justify-around items-center text-white">
-          <div>
-            <h3 className="text-5xl">Newsletter</h3>
-            <p className="text-2xl mt-4">Subscribe to our newsletter</p>
-          </div>
-          <div className="">
-            <form>
-              <input
-                type="text"
-                className="p-2 outline-none text-black"
-                placeholder="Email address..."
-              />
-              <button className="p-2 bg-white text-black hover:bg-black hover:text-white">
-                Subscribe
-              </button>
-            </form>
-          </div>
-        </div>
-      </div>
+      <Newsletter />
     </main>
   );
 };

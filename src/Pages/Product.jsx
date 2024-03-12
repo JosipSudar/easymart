@@ -24,7 +24,9 @@ const Product = () => {
     setTimeout(() => {
       alert("Product added to cart!");
       const existingCartItems = JSON.parse(localStorage.getItem("cart")) || [];
-      const updatedCartItems = [...existingCartItems, product];
+      const newProduct = { ...product, quantity: 1 };
+      console.log(newProduct, "product");
+      const updatedCartItems = [...existingCartItems, newProduct];
       localStorage.setItem("cart", JSON.stringify(updatedCartItems));
     }, 1000);
   };

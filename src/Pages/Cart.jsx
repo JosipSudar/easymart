@@ -7,6 +7,7 @@ import { FaPaypal } from "react-icons/fa";
 
 const Cart = () => {
   const [cartProducts, setCartProducts] = useState([]);
+  const [paymentMethod, setPaymentMethod] = useState("");
 
   useEffect(() => {
     setCartProducts(JSON.parse(localStorage.getItem("cart")) || []);
@@ -32,6 +33,11 @@ const Cart = () => {
     localStorage.setItem("cart", JSON.stringify(cart));
   };
 
+  const removeProduct = (index) => {
+    updateLocalStorage(cartProducts.filter((_, i) => i !== index));
+    window.location.reload();
+  };
+
   return (
     <main className="max-w-7xl mx-auto my-20">
       <h1 className="text-3xl">Cart</h1>
@@ -48,7 +54,7 @@ const Cart = () => {
                   <img
                     src={product.thumbnail}
                     alt="img"
-                    className="w-20 h-20 mr-4"
+                    className="w-20 h-20 mr-4 object-cover"
                   />
                   <div>
                     <p>{product.title}</p>
@@ -59,13 +65,14 @@ const Cart = () => {
                   <button onClick={() => handleDecreaseQuantity(index)}>
                     <FaArrowLeft />
                   </button>
-                  <span className="mx-4">{product.quantity}</span>
+                  <span className="mx-4">{product?.quantity}</span>
                   <button onClick={() => handleIncreaseQuantity(index)}>
                     <FaArrowRight />
                   </button>
                   <div className="mx-4">
-                    {product.price * product.quantity}$
+                    {product?.price * product?.quantity}$
                   </div>
+                  <button onClick={() => removeProduct(index)}>Remove</button>
                 </div>
               </div>
             ))
@@ -148,8 +155,18 @@ const Cart = () => {
                     id="payment"
                     className="w-full bg-slate-100 p-2 text-black rounded-md"
                   >
-                    <option value="card">Credit or Debit Card</option>
-                    <option value="cash">Cash on Delivery</option>
+                    <option
+                      value="card"
+                      onClick={(e) => setPaymentMethod(e.target.value)}
+                    >
+                      Credit or Debit Card
+                    </option>
+                    <option
+                      value="cash"
+                      onClick={(e) => setPaymentMethod(e.target.value)}
+                    >
+                      Cash on Delivery
+                    </option>
                   </select>
                 </div>
                 <div className="grid grid-cols-2 items-center">
@@ -157,7 +174,12 @@ const Cart = () => {
                   <input
                     type="number"
                     placeholder="Card number"
-                    className="w-full bg-slate-100 p-2 text-black rounded-md"
+                    className={
+                      paymentMethod !== "card"
+                        ? "w-full bg-slate-100 p-2 text-black rounded-md cursor-not-allowed"
+                        : "w-full bg-slate-100 p-2 text-black rounded-md"
+                    }
+                    disabled={paymentMethod !== "card"}
                   />
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
@@ -165,13 +187,23 @@ const Cart = () => {
                   <input
                     type="number"
                     placeholder="CVV"
-                    className="w-full bg-slate-100 p-2 text-black rounded-md"
+                    className={
+                      paymentMethod !== "card"
+                        ? "w-full bg-slate-100 p-2 text-black rounded-md cursor-not-allowed"
+                        : "w-full bg-slate-100 p-2 text-black rounded-md"
+                    }
+                    disabled={paymentMethod !== "card"}
                   />
                   <label>Expiry date</label>
                   <input
                     type="date"
                     placeholder="Expiry date"
-                    className="w-full bg-slate-100 p-2 text-black rounded-md"
+                    className={
+                      paymentMethod !== "card"
+                        ? "w-full bg-slate-100 p-2 text-black rounded-md cursor-not-allowed"
+                        : "w-full bg-slate-100 p-2 text-black rounded-md"
+                    }
+                    disabled={paymentMethod !== "card"}
                   />
                 </div>
                 <hr className="border-2 border-slate-100" />

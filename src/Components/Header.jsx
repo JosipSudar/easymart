@@ -10,7 +10,7 @@ const Header = () => {
 
   useEffect(() => {
     localStorage.getItem("token") ? setIsLoggedIn(true) : setIsLoggedIn(false);
-    console.log(isLoggedIn);
+    localStorage.getItem("cart");
   }, [isLoggedIn]);
 
   const Logout = () => {

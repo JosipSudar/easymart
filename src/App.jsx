@@ -15,11 +15,13 @@ import ErrPage from "./Pages/ErrPage";
 
 const Layout = ({ children }) => {
   return (
-    <>
+    <div className="site">
       <Header />
       {children}
-      <Footer />
-    </>
+      <div className="footer">
+        <Footer />
+      </div>
+    </div>
   );
 };
 

@@ -3,7 +3,7 @@ import footerImg from "../assets/images/payment.png";
 
 const Footer = () => {
   return (
-    <footer className="flex justify-between h-24 items-center p-5 bg-white mt-24 mb-10">
+    <footer className="flex justify-between h-24 items-center p-5 bg-white mt-24 mb-10 ">
       <nav className="flex flex-col gap-3">
         <Link
           to="/"

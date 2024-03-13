@@ -4,12 +4,22 @@ import { FaCartShopping } from "react-icons/fa6";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "./ui/sheet";
+import { Button, buttonVariants } from "./ui/button";
 
 const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [items, setItems] = useState();
   const navigate = useNavigate();
   const cart = useSelector((state) => state.cart);
+  const user = localStorage.getItem("username");
 
   useEffect(() => {
     if (localStorage.getItem("token")) {
@@ -37,7 +47,33 @@ const Header = () => {
         </div>
         <div>
           {isLoggedIn ? (
-            <p>Logged in as {localStorage.getItem("username")}</p>
+            <Sheet>
+              <SheetTrigger>{user}</SheetTrigger>
+              <SheetContent side="left">
+                <SheetHeader>
+                  <SheetTitle className=" text-lg">My Profile</SheetTitle>
+                  <SheetDescription>
+                    <div className="flex flex-col items-center gap-7 mt-4 text-slate-800">
+                      <Link
+                        to={"/profile"}
+                        className={buttonVariants({ variant: "ghost" })}
+                      >
+                        Profile
+                      </Link>
+                      <Button variant="ghost" onClick={logout}>
+                        Logout
+                      </Button>
+                      <Link
+                        to={"/orders"}
+                        className={buttonVariants({ variant: "ghost" })}
+                      >
+                        My Orders
+                      </Link>
+                    </div>
+                  </SheetDescription>
+                </SheetHeader>
+              </SheetContent>
+            </Sheet>
           ) : (
             <p>No user logged in</p>
           )}
@@ -74,19 +110,12 @@ const Header = () => {
           >
             Contact
           </Link>
-          {isLoggedIn ? (
-            <button
-              onClick={logout}
-              className="hover:text-blue-500 transition duration-300 hover:underline underline-offset-8"
-            >
-              Logout
-            </button>
-          ) : (
+          {!isLoggedIn && (
             <Link
               to="/login"
               className="hover:text-blue-500 transition duration-300 hover:underline underline-offset-8"
             >
-              Login / Register
+              Login
             </Link>
           )}
           <Link to="/cart">

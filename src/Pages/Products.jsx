@@ -63,14 +63,14 @@ const Products = () => {
 
   useEffect(() => {
     fetchProducts();
-  }, [currentPage, fetchProducts]);
+  }, [currentPage]);
 
   return (
     <>
       {isLoading ? (
         <div className="text-6xl text-center font-bold mt-10">Loading...</div>
       ) : (
-        <main className="max-w-7xl mx-auto">
+        <main className=" container mx-auto">
           <div className="mb-10 flex justify-between items-center">
             <h1 className="text-5xl font-bold my-10">Products</h1>
             <form className="flex gap-2 items-center">
@@ -104,34 +104,36 @@ const Products = () => {
             </div>
           </div>
 
-          <div className="mt-10 mb-10">
-            <div className="flex flex-col items-center">
-              <span className="text-sm">
-                Showing <span className="font-semibold">1</span> to
-                <span className="font-semibold">{pageSize}</span> of{" "}
-                <span className="font-semibold">{allProducts.length}</span>{" "}
-                Entries
-              </span>
-              <div className="inline-flex mt-2 xs:mt-0 gap-1">
-                <Button
-                  className="flex items-center justify-center px-3 h-8 text-sm font-medium bg-blue-500 text-white rounded-l-md hover:bg-blue-600 disabled:cursor-not-allowed disabled:opacity-50"
-                  onClick={prevPage}
-                  disabled={currentPage === 1}
-                >
-                  Prev
-                </Button>
-                <Button
-                  className="flex items-center justify-center px-3 h-8 text-sm font-medium bg-blue-500 text-white rounded-r-md hover:bg-blue-600 disabled:cursor-not-allowed disabled:opacity-50"
-                  onClick={nextPage}
-                  disabled={
-                    currentPage === Math.ceil(allProducts.length / pageSize)
-                  }
-                >
-                  Next
-                </Button>
+          {filteredProducts.length > 0 && (
+            <div className="mt-10 mb-10">
+              <div className="flex flex-col items-center">
+                <span className="text-sm">
+                  Showing <span className="font-semibold">1</span> to
+                  <span className="font-semibold">{pageSize}</span> of{" "}
+                  <span className="font-semibold">{allProducts.length}</span>{" "}
+                  Entries
+                </span>
+                <div className="inline-flex mt-2 xs:mt-0 gap-1">
+                  <Button
+                    className="flex items-center justify-center px-3 h-8 text-sm font-medium bg-blue-500 text-white rounded-l-md hover:bg-blue-600 disabled:cursor-not-allowed disabled:opacity-50"
+                    onClick={prevPage}
+                    disabled={currentPage === 1}
+                  >
+                    Prev
+                  </Button>
+                  <Button
+                    className="flex items-center justify-center px-3 h-8 text-sm font-medium bg-blue-500 text-white rounded-r-md hover:bg-blue-600 disabled:cursor-not-allowed disabled:opacity-50"
+                    onClick={nextPage}
+                    disabled={
+                      currentPage === Math.ceil(allProducts.length / pageSize)
+                    }
+                  >
+                    Next
+                  </Button>
+                </div>
               </div>
             </div>
-          </div>
+          )}
         </main>
       )}
     </>

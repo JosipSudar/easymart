@@ -2,15 +2,17 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { FaStar } from "react-icons/fa";
 import { useParams } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "sonner";
 import { Toaster } from "sonner";
+import { increaseQuantity } from "@/state/cart/cartSlice";
 
 const Product = () => {
   const { id } = useParams();
   const [product, setProduct] = useState({});
   let quantity = 1;
   const dispach = useDispatch();
+  const cart = useSelector((state) => state.cart);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -26,8 +28,15 @@ const Product = () => {
   }, [id]);
 
   const addToCart = () => {
-    dispach({ type: "cart/addToCart", payload: product });
-    toast("Added to cart");
+    const products = cart.cart;
+    const productInCart = products.find((item) => item.id === product.id);
+    if (productInCart) {
+      dispach(increaseQuantity({ id: product.id }));
+      toast("Increased quantity of product in cart");
+    } else {
+      dispach({ type: "cart/addToCart", payload: product });
+      toast("Added to cart");
+    }
   };
 
   return (

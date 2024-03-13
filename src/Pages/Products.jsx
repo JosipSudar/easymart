@@ -10,21 +10,20 @@ const Products = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 20;
 
-  const fetchProducts = async (page) => {
+  const fetchProducts = async () => {
     try {
-      const res = await axios.get("https://dummyjson.com/products?limit=0");
-      if (res.data) {
-        const startIndex = page * pageSize;
-        const endIndex = startIndex + pageSize;
-        const paginatedProducts = res.data.products.slice(startIndex, endIndex);
-        setAllProducts(page === 1 ? res.data.products : allProducts);
-        setFilteredProducts(paginatedProducts);
-        setIsLoading(false);
-      }
+      const res = await axios.get("https://dummyjson.com/products?limit=0")
+      const products = res.data.products;
+      const startIndex = currentPage === 1 ? 0 : (currentPage - 1) * pageSize;
+      const endIndex = startIndex + pageSize;
+      const paginatedProducts = products.slice(startIndex, endIndex);
+      setFilteredProducts(paginatedProducts);
+      setAllProducts(products);
+      setIsLoading(false);
     } catch (error) {
-      console.error("Error fetching data:", error);
+      console.error(error);
     }
-  };
+  }
 
   const filterProductsByName = (searchTerm) => {
     const filteredProducts = allProducts.filter((product) =>
@@ -39,12 +38,14 @@ const Products = () => {
   };
 
   const nextPage = () => {
-    setCurrentPage(currentPage + 1);
+    if(currentPage < Math.ceil(allProducts.length / pageSize)) {
+      setCurrentPage(currentPage + 1);
+    }
     fetchProducts(currentPage);
   };
 
   const prevPage = () => {
-    if (currentPage > 1) {
+    if (currentPage > 1 && currentPage <= Math.ceil(allProducts.length / pageSize)) {
       setCurrentPage(currentPage - 1);
     }
     fetchProducts(currentPage);
@@ -55,7 +56,7 @@ const Products = () => {
   };
 
   useEffect(() => {
-    fetchProducts(currentPage);
+    fetchProducts();
   }, [currentPage]);
 
   return (
@@ -100,7 +101,7 @@ const Products = () => {
           <div className="mt-10 mb-10">
             <div className="flex flex-col items-center">
               <span className="text-sm">
-                Showing <span className="font-semibold">1</span> to{" "}
+                Showing <span className="font-semibold">1</span> to
                 <span className="font-semibold">{pageSize}</span> of{" "}
                 <span className="font-semibold">{allProducts.length}</span>{" "}
                 Entries

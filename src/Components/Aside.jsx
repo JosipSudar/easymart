@@ -1,6 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { PropTypes } from "prop-types";
 import { useEffect, useState } from "react";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "./ui/accordion";
 
 const Aside = ({ products, onFilterChange }) => {
   const [selectedCategories, setSelectedCategories] = useState([]);
@@ -49,39 +55,50 @@ const Aside = ({ products, onFilterChange }) => {
 
   return (
     <aside className=" bg-slate-300 p-5 rounded-lg">
-      <div>
-        <p className="text-xl font-bold mb-3">Select a brand</p>
-        {[...new Set(products.map((product) => product.brand))].map((brand) => (
-          <div key={brand} className="flex flex-col my-2">
-            <div className="flex justify-between">
-              <label key={brand}>{brand}</label>{" "}
-              <input
-                type="checkbox"
-                onChange={() => handleBrandChange(brand)}
-                checked={selectedBrands.includes(brand)}
-              />
-            </div>
-          </div>
-        ))}
-      </div>
-      <hr className="my-5" />
-      <div>
-        <p className="text-xl font-bold my-3">Select a category</p>
-        {[...new Set(products.map((product) => product.category))].map(
-          (category) => (
-            <div key={category} className="flex flex-col my-2">
-              <div className="flex justify-between">
-                <label key={category}>{category}</label>{" "}
-                <input
-                  type="checkbox"
-                  onChange={() => handleCategoryChange(category)}
-                  checked={selectedCategories.includes(category)}
-                />
-              </div>
-            </div>
-          )
-        )}
-      </div>
+      <Accordion type="single" collapsible className=" space-y-4">
+        <AccordionItem value="item-1" className=" border-b border-slate-800">
+          <AccordionTrigger className=" text-xl font-medium hover:no-underline">
+            Select a brand
+          </AccordionTrigger>
+          <AccordionContent className=" text-lg">
+            {[...new Set(products.map((product) => product.brand))].map(
+              (brand) => (
+                <div key={brand} className="flex flex-col my-2">
+                  <div className="flex justify-between">
+                    <label key={brand}>{brand}</label>{" "}
+                    <input
+                      type="checkbox"
+                      onChange={() => handleBrandChange(brand)}
+                      checked={selectedBrands.includes(brand)}
+                    />
+                  </div>
+                </div>
+              )
+            )}
+          </AccordionContent>
+        </AccordionItem>
+        <AccordionItem value="item-2" className=" border-b border-slate-800">
+          <AccordionTrigger className=" text-xl font-medium hover:no-underline">
+            Select a category
+          </AccordionTrigger>
+          <AccordionContent className=" text-lg">
+            {[...new Set(products.map((product) => product.category))].map(
+              (category) => (
+                <div key={category} className="flex flex-col my-2">
+                  <div className="flex justify-between">
+                    <label key={category}>{category}</label>{" "}
+                    <input
+                      type="checkbox"
+                      onChange={() => handleCategoryChange(category)}
+                      checked={selectedCategories.includes(category)}
+                    />
+                  </div>
+                </div>
+              )
+            )}
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
     </aside>
   );
 };

@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { FaStar } from "react-icons/fa";
 import { useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { toast } from "sonner";
+import { Toaster } from "sonner";
 
 const Product = () => {
   const { id } = useParams();
@@ -25,6 +27,7 @@ const Product = () => {
 
   const addToCart = () => {
     dispach({ type: "cart/addToCart", payload: product });
+    toast("Added to cart");
   };
 
   return (
@@ -74,6 +77,7 @@ const Product = () => {
               ))}
             </div>
           </div>
+          <Toaster />
         </main>
       )}
     </>

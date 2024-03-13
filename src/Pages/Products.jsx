@@ -2,6 +2,8 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import ProductCard from "../Components/ProductCard";
 import Aside from "../Components/Aside";
+import { useDispatch } from "react-redux";
+import { Button } from "@/Components/ui/button";
 
 const Products = () => {
   const [allProducts, setAllProducts] = useState([]);
@@ -9,10 +11,11 @@ const Products = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 20;
+  const dispach = useDispatch();
 
   const fetchProducts = async () => {
     try {
-      const res = await axios.get("https://dummyjson.com/products?limit=0")
+      const res = await axios.get("https://dummyjson.com/products?limit=0");
       const products = res.data.products;
       const startIndex = currentPage === 1 ? 0 : (currentPage - 1) * pageSize;
       const endIndex = startIndex + pageSize;
@@ -23,7 +26,7 @@ const Products = () => {
     } catch (error) {
       console.error(error);
     }
-  }
+  };
 
   const filterProductsByName = (searchTerm) => {
     const filteredProducts = allProducts.filter((product) =>
@@ -38,14 +41,17 @@ const Products = () => {
   };
 
   const nextPage = () => {
-    if(currentPage < Math.ceil(allProducts.length / pageSize)) {
+    if (currentPage < Math.ceil(allProducts.length / pageSize)) {
       setCurrentPage(currentPage + 1);
     }
     fetchProducts(currentPage);
   };
 
   const prevPage = () => {
-    if (currentPage > 1 && currentPage <= Math.ceil(allProducts.length / pageSize)) {
+    if (
+      currentPage > 1 &&
+      currentPage <= Math.ceil(allProducts.length / pageSize)
+    ) {
       setCurrentPage(currentPage - 1);
     }
     fetchProducts(currentPage);
@@ -57,7 +63,7 @@ const Products = () => {
 
   useEffect(() => {
     fetchProducts();
-  }, [currentPage]);
+  }, [currentPage, fetchProducts]);
 
   return (
     <>
@@ -106,19 +112,23 @@ const Products = () => {
                 <span className="font-semibold">{allProducts.length}</span>{" "}
                 Entries
               </span>
-              <div className="inline-flex mt-2 xs:mt-0">
-                <button
-                  className="flex items-center justify-center px-3 h-8 text-sm font-medium bg-blue-500 text-white rounded-l-md hover:bg-blue-600"
+              <div className="inline-flex mt-2 xs:mt-0 gap-1">
+                <Button
+                  className="flex items-center justify-center px-3 h-8 text-sm font-medium bg-blue-500 text-white rounded-l-md hover:bg-blue-600 disabled:cursor-not-allowed disabled:opacity-50"
                   onClick={prevPage}
+                  disabled={currentPage === 1}
                 >
                   Prev
-                </button>
-                <button
-                  className="flex items-center justify-center px-3 h-8 text-sm font-medium bg-blue-500 text-white rounded-r-md hover:bg-blue-600"
+                </Button>
+                <Button
+                  className="flex items-center justify-center px-3 h-8 text-sm font-medium bg-blue-500 text-white rounded-r-md hover:bg-blue-600 disabled:cursor-not-allowed disabled:opacity-50"
                   onClick={nextPage}
+                  disabled={
+                    currentPage === Math.ceil(allProducts.length / pageSize)
+                  }
                 >
                   Next
-                </button>
+                </Button>
               </div>
             </div>
           </div>

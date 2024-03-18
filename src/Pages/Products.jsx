@@ -4,6 +4,7 @@ import ProductCard from "../Components/ProductCard";
 import Aside from "../Components/Aside";
 import { useDispatch } from "react-redux";
 import { Button } from "@/Components/ui/button";
+import Loader from "../assets/loading.svg";
 
 const Products = () => {
   const [allProducts, setAllProducts] = useState([]);
@@ -68,10 +69,12 @@ const Products = () => {
   return (
     <>
       {isLoading ? (
-        <div className="text-6xl text-center font-bold mt-10">Loading...</div>
+        <div className="flex justify-center items-center">
+          <img src={Loader} alt="" className=" h-[20%] w-[10%]" />
+        </div>
       ) : (
-        <main className=" container mx-auto">
-          <div className="mb-10 flex justify-between items-center">
+        <main className=" container mx-auto h-fit">
+          <div className="mb-10 flex flex-col justify-between items-center lg:flex-row">
             <h1 className="text-5xl font-bold my-10">Products</h1>
             <form className="flex gap-2 items-center">
               <label className="font-md">Search by name</label>
@@ -83,14 +86,14 @@ const Products = () => {
             </form>
           </div>
           <hr className="border-2 border-blue-500 mb-10" />
-          <div className="flex gap-5">
-            <div className=" w-1/3">
+          <div className="flex flex-col gap-5 lg:flex-row">
+            <div className=" w-full lg:w-1/3">
               <Aside
                 products={allProducts}
                 onFilterChange={handleFilterChange}
               />
             </div>
-            <div className=" w-2/3 grid grid-cols-3 gap-4 h-full">
+            <div className=" w-full grid grid-cols-1 gap-4 h-full lg:w-2/3 lg:grid-cols-3">
               {filteredProducts.length > 0 &&
                 filteredProducts.map((product) => (
                   <ProductCard

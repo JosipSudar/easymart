@@ -3,16 +3,27 @@ import { IoIosArrowDown } from "react-icons/io";
 import { FaCartShopping } from "react-icons/fa6";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Sheet,
   SheetContent,
   SheetDescription,
+  SheetFooter,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
 } from "./ui/sheet";
 import { Button, buttonVariants } from "./ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "./ui/dropdown-menu";
+import { FaTrashAlt } from "react-icons/fa";
+import { removeFromCart } from "@/state/cart/cartSlice";
 
 const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -20,6 +31,7 @@ const Header = () => {
   const navigate = useNavigate();
   const cart = useSelector((state) => state.cart);
   const user = localStorage.getItem("username");
+  const dispach = useDispatch();
 
   useEffect(() => {
     if (localStorage.getItem("token")) {
@@ -34,8 +46,12 @@ const Header = () => {
     window.location.reload();
   };
 
+  const removeItem = (id) => {
+    dispach(removeFromCart({ id }));
+  };
+
   return (
-    <header className="flex justify-between h-24 items-center p-5 shadow-lg bg-white">
+    <header className=" hidden lg:flex justify-between h-24 items-center p-5 shadow-lg bg-white">
       <div className="flex gap-3 items-center text-xl">
         <div className="flex gap-2 items-center">
           <GrLanguage />
@@ -47,33 +63,26 @@ const Header = () => {
         </div>
         <div>
           {isLoggedIn ? (
-            <Sheet>
-              <SheetTrigger>{user}</SheetTrigger>
-              <SheetContent side="left">
-                <SheetHeader>
-                  <SheetTitle className=" text-lg">My Profile</SheetTitle>
-                  <SheetDescription>
-                    <div className="flex flex-col items-center gap-7 mt-4 text-slate-800">
-                      <Link
-                        to={"/profile"}
-                        className={buttonVariants({ variant: "ghost" })}
-                      >
-                        Profile
-                      </Link>
-                      <Button variant="ghost" onClick={logout}>
-                        Logout
-                      </Button>
-                      <Link
-                        to={"/orders"}
-                        className={buttonVariants({ variant: "ghost" })}
-                      >
-                        My Orders
-                      </Link>
-                    </div>
-                  </SheetDescription>
-                </SheetHeader>
-              </SheetContent>
-            </Sheet>
+            <DropdownMenu className=" p-4">
+              <DropdownMenuTrigger>{user}</DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuLabel>
+                  <Link className={buttonVariants({ variant: "ghost" })}>
+                    My Account
+                  </Link>
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>
+                  <Button
+                    className=" text-center"
+                    variant="ghost"
+                    onClick={logout}
+                  >
+                    Logout
+                  </Button>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           ) : (
             <p>No user logged in</p>
           )}
@@ -118,12 +127,53 @@ const Header = () => {
               Login
             </Link>
           )}
-          <Link to="/cart">
-            <FaCartShopping className=" relative" />
-            <span className="absolute top-7 right-2 text-white bg-blue-500 rounded-full w-5 h-5 flex justify-center items-center">
-              {items ? items.length : 0}
-            </span>
-          </Link>
+          <Sheet>
+            <SheetTrigger>
+              <FaCartShopping className=" relative" />
+              <span className="absolute top-7 right-2 text-white bg-blue-500 rounded-full w-5 h-5 flex justify-center items-center">
+                {items ? items.length : 0}
+              </span>
+            </SheetTrigger>
+            <SheetContent className="flex flex-col justify-between">
+              <SheetHeader>
+                <SheetTitle>My cart</SheetTitle>
+                <SheetDescription className="grid grid-cols-2 gap-2 max-h-[80vh] overflow-y-scroll w-full">
+                  {items ? (
+                    items.map((item) => (
+                      <div
+                        key={item.id}
+                        className="flex flex-col items-center gap-2 justify-between border border-slate-500 rounded-md pb-2 h-full"
+                      >
+                        <img
+                          src={item.thumbnail}
+                          alt={item.title}
+                          className=" w-full object-cover h-28 rounded-md"
+                        />
+                        <p>{item.title}</p>
+                        <p>${item.price}</p>
+                        <Button
+                          onClick={() => removeItem(item.id)}
+                          variant="secondary"
+                        >
+                          <FaTrashAlt />
+                        </Button>
+                      </div>
+                    ))
+                  ) : (
+                    <p className=" text-center">No items in cart</p>
+                  )}
+                </SheetDescription>
+              </SheetHeader>
+              <SheetFooter>
+                <Link
+                  to="/cart"
+                  className="w-full bg-blue-500 text-white rounded-md p-2 text-center mt-auto"
+                >
+                  View Cart
+                </Link>
+              </SheetFooter>
+            </SheetContent>
+          </Sheet>
         </nav>
       </div>
     </header>

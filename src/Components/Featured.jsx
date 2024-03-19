@@ -7,7 +7,7 @@ const Featured = ({ image, desc, name, price, rating, id }) => {
     <Link
       to={`/products/${id}`}
       className="flex flex-col
-     items-center h-[500px] hover:scale-105"
+     items-center h-[500px] hover:scale-105 transition-all duration-300 ease-in-out"
     >
       <img src={image} alt={desc} className=" w-[300px] h-[300px]" />
       <div className="flex flex-1 items-center justify-center">

@@ -50,7 +50,7 @@ const Home = () => {
           autoPlay
           muted
           loop
-          className="absolute top-0 left-0 w-full h-full object-fill bg-blend-darken"
+          className="absolute top-0 left-0 w-full h-full object-cover bg-blend-darken"
           style={{
             transform: `translateY(-${scrollPosition * 0.5}px)`,
           }}
@@ -91,7 +91,7 @@ const Home = () => {
       <Gallery />
 
       <div className=" max-w-[1200px] mx-auto my-36">
-        <div className="flex justify-between mb-20 items-center">
+        <div className="flex flex-col justify-between mb-20 items-center">
           <h2 className="text-3xl font-bold">Featured Categories</h2>
           <p className="text-gray-500 text-lg">
             From Fashion to Electronics, Our Featured Categories Have Something

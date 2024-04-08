@@ -2,7 +2,6 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import ProductCard from "../Components/ProductCard";
 import Aside from "../Components/Aside";
-import { useDispatch } from "react-redux";
 import { Button } from "@/Components/ui/button";
 import Loader from "../assets/loading.svg";
 
@@ -12,11 +11,10 @@ const Products = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 20;
-  const dispach = useDispatch();
 
   const fetchProducts = async () => {
     try {
-      const res = await axios.get("https://dummyjson.com/products?limit=0");
+      const res = await axios.get("http://localhost:3000/api/products");
       const products = res.data.products;
       const startIndex = currentPage === 1 ? 0 : (currentPage - 1) * pageSize;
       const endIndex = startIndex + pageSize;

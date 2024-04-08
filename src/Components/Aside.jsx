@@ -36,20 +36,14 @@ const Aside = ({ products, onFilterChange }) => {
 
   useEffect(() => {
     const filteredProducts = products.filter((product) => {
-      if (
-        selectedCategories.length > 0 &&
-        !selectedCategories.includes(product.category)
-      ) {
-        return false;
-      }
-      if (
-        selectedBrands.length > 0 &&
-        !selectedBrands.includes(product.brand)
-      ) {
-        return false;
-      }
-      return true;
+      const matchesCategory =
+        selectedCategories.length === 0 ||
+        selectedCategories.includes(product.category);
+      const matchesBrand =
+        selectedBrands.length === 0 || selectedBrands.includes(product.brand);
+      return matchesCategory && matchesBrand;
     });
+
     onFilterChange(filteredProducts);
   }, [selectedCategories, selectedBrands]);
 

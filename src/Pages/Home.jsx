@@ -56,7 +56,7 @@ const Home = () => {
           }}
         >
           <source
-            src="https://player.vimeo.com/external/538645836.sd.mp4?s=7adf7715469f5f425f29e5a0667545e78234e748&profile_id=164&oauth2_token_id=57447761"
+            src="https://cdn.pixabay.com/video/2020/08/19/47601-451623945_large.mp4"
             type="video/mp4"
           />
           Your browser does not support the video tag.

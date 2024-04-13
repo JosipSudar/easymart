@@ -1,5 +1,11 @@
+import { useEffect } from "react";
+
 /* eslint-disable react/no-unescaped-entities */
 const About = () => {
+  useEffect(() => {
+    document.title = "Easymart | About";
+  }, []);
+
   return (
     <main className="max-w-7xl mx-auto my-40 space-y-56">
       <div>

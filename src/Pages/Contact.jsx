@@ -3,8 +3,13 @@ import { FaFacebookSquare } from "react-icons/fa";
 import { FaInstagram } from "react-icons/fa";
 import { FaSquareXTwitter } from "react-icons/fa6";
 import { FaLinkedin } from "react-icons/fa";
+import { useEffect } from "react";
 
 const Contact = () => {
+  useEffect(() => {
+    document.title = "Easymart | Contact";
+  }, []);
+
   return (
     <main className="max-w-7xl mx-auto space-y-20 mt-40">
       <div>

@@ -22,6 +22,7 @@ const Cart = () => {
   useEffect(() => {
     localStorage.getItem("token") ? setIsLoggedIn(true) : setIsLoggedIn(false);
     setCartProducts(cart.cart);
+    document.title = "Easymart | Cart";
   }, [cart]);
 
   const handleIncreaseQuantity = (productId) => {

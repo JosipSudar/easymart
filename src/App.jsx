@@ -1,18 +1,20 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { PropTypes } from "prop-types";
-import Home from "./Pages/Home";
-import Header from "./Components/Header";
-import Footer from "./Components/Footer";
-import Products from "./Pages/Products";
-import Product from "./Pages/Product";
-import Login from "./Pages/Login";
-import Cart from "./Pages/Cart";
-import About from "./Pages/About";
-import Contact from "./Pages/Contact";
-import MiscComponent from "./Components/miscComponent";
 import { useEffect, useState } from "react";
-import ErrPage from "./Pages/ErrPage";
-import Register from "./Pages/Register";
+import { Footer, Header, MiscComponent } from "./Components";
+import {
+  About,
+  Cart,
+  Contact,
+  Dashboard,
+  ErrPage,
+  Home,
+  Login,
+  OrderSuccess,
+  Product,
+  Products,
+  Register,
+} from "./Pages";
 
 const Layout = ({ children }) => {
   return (
@@ -45,6 +47,7 @@ const App = () => {
           <Route path="contact" element={<Contact />} />
           {!isLoggedIn && <Route path="login" element={<Login />} />}
           {!isLoggedIn && <Route path="register" element={<Register />} />}
+          <Route path="dashboard" element={<Dashboard />} />
           <Route
             path="privacy-policy"
             element={
@@ -90,6 +93,7 @@ const App = () => {
             }
           />
           <Route path="*" element={<ErrPage />} />
+          <Route path="/order-success" element={<OrderSuccess />} />
         </Routes>
       </Layout>
     </Router>

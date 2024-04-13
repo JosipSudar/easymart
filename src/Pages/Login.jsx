@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { users } from "../constants/userData";
@@ -36,6 +36,10 @@ const Login = () => {
   const handlePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
+
+  useEffect(() => {
+    document.title = "Easymart | Login";
+  }, []);
 
   return (
     <section className="bg-gray-50">

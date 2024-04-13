@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { users } from "../constants/userData";
 
 const Register = () => {
   const [username, setUsername] = useState();
@@ -21,11 +20,11 @@ const Register = () => {
         )
         .then((res) => {
           alert(res.data.msg);
-            if (res.data.success) {
-                setTimeout(() => {
-                    navigate("/login");
-                }, 2000);
-            }
+          if (res.data.success) {
+            setTimeout(() => {
+              navigate("/login");
+            }, 2000);
+          }
         });
     } catch (error) {
       console.log("Error in login:", error);

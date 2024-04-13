@@ -12,6 +12,7 @@ import Contact from "./Pages/Contact";
 import MiscComponent from "./Components/miscComponent";
 import { useEffect, useState } from "react";
 import ErrPage from "./Pages/ErrPage";
+import Register from "./Pages/Register";
 
 const Layout = ({ children }) => {
   return (
@@ -43,6 +44,7 @@ const App = () => {
           <Route path="about" element={<About />} />
           <Route path="contact" element={<Contact />} />
           {!isLoggedIn && <Route path="login" element={<Login />} />}
+          {!isLoggedIn && <Route path="register" element={<Register />} />}
           <Route
             path="privacy-policy"
             element={

@@ -3,30 +3,29 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { users } from "../constants/userData";
 
-const Login = () => {
-  const [username, setUsername] = useState(users.username);
-  const [password, setPassword] = useState(users.password);
+const Register = () => {
+  const [username, setUsername] = useState();
+  const [password, setPassword] = useState();
+  const [email, setEmail] = useState();
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
-  const login = (e) => {
+  const register = (e) => {
     e.preventDefault();
     try {
       axios
         .post(
-          "http://localhost:3000/api/user/login",
-          { username, password },
+          "http://localhost:3000/api/user/register",
+          { username, email, password },
           { headers: { "Content-Type": "application/json" } }
         )
         .then((res) => {
-          if (res.data.token) {
-            localStorage.setItem("token", res.data.token);
-            localStorage.setItem("userID", res.data.userID);
-            navigate("/");
-            window.location.reload();
-          } else {
-            console.log("Token not found in response:", res.data);
-          }
+          alert(res.data.msg);
+            if (res.data.success) {
+                setTimeout(() => {
+                    navigate("/login");
+                }, 2000);
+            }
         });
     } catch (error) {
       console.log("Error in login:", error);
@@ -43,9 +42,9 @@ const Login = () => {
         <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 ">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl ">
-              Sign in to your account
+              Create an account
             </h1>
-            <form className="space-y-4 md:space-y-6" onSubmit={login}>
+            <form className="space-y-4 md:space-y-6" onSubmit={register}>
               <div>
                 <label
                   htmlFor="username"
@@ -61,6 +60,23 @@ const Login = () => {
                   placeholder="kminchelle"
                   required
                   onChange={(e) => setUsername(e.target.value)}
+                />
+              </div>
+              <div>
+                <label
+                  htmlFor="email"
+                  className="block mb-2 text-sm font-medium text-gray-900 "
+                >
+                  Email
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  id="email"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 "
+                  placeholder="kminchelle"
+                  required
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
               <div>
@@ -98,28 +114,13 @@ const Login = () => {
                     </label>
                   </div>
                 </div>
-                <a
-                  href="#"
-                  className="text-sm font-medium text-primary-600 hover:underline "
-                >
-                  Forgot password?
-                </a>
               </div>
               <button
                 type="submit"
                 className="w-full  bg-blue-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center  text-white"
               >
-                Sign in
+                Register
               </button>
-              <p className="text-sm font-light text-gray-500 ">
-                Don’t have an account yet?{" "}
-                <a
-                  href="#"
-                  className="font-medium text-primary-600 hover:underline "
-                >
-                  Sign up
-                </a>
-              </p>
             </form>
           </div>
         </div>
@@ -128,4 +129,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;

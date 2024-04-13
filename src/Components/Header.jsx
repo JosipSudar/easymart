@@ -26,13 +26,15 @@ import { FaTrashAlt } from "react-icons/fa";
 import { CiMenuFries } from "react-icons/ci";
 import { removeFromCart } from "@/state/cart/cartSlice";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
+import getUserData from "@/utils/getUserData";
 
 const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [items, setItems] = useState();
+  const [username, setUsername] = useState("");
   const navigate = useNavigate();
   const cart = useSelector((state) => state.cart);
-  const user = localStorage.getItem("username");
+  const userID = localStorage.getItem("userID");
   const dispach = useDispatch();
 
   useEffect(() => {
@@ -42,10 +44,19 @@ const Header = () => {
     setItems(cart.cart);
   }, [cart, isLoggedIn]);
 
+  useEffect(() => {
+    if (userID) {
+      getUserData(userID).then((data) => {
+        setUsername(data.user.username)
+      });
+    }
+  }, [username]);
+
   const logout = () => {
     localStorage.removeItem("token");
-    navigate("/");
-    window.location.reload();
+    localStorage.removeItem("userID");
+    setIsLoggedIn(false);
+    navigate("/login");
   };
 
   const removeItem = (id) => {
@@ -67,7 +78,7 @@ const Header = () => {
           <div>
             {isLoggedIn ? (
               <DropdownMenu className=" p-4">
-                <DropdownMenuTrigger>{user}</DropdownMenuTrigger>
+                <DropdownMenuTrigger>Signed in as {username}</DropdownMenuTrigger>
                 <DropdownMenuContent>
                   <DropdownMenuLabel>
                     <Link className={buttonVariants({ variant: "ghost" })}>
@@ -123,12 +134,20 @@ const Header = () => {
               Contact
             </Link>
             {!isLoggedIn && (
+              <>
               <Link
                 to="/login"
                 className="hover:text-blue-500 transition duration-300 hover:underline underline-offset-8"
               >
                 Login
               </Link>
+              <Link
+                to="/register"
+                className="hover:text-blue-500 transition duration-300 hover:underline underline-offset-8"
+              >
+                Register
+              </Link>
+              </>
             )}
             <Sheet>
               <SheetTrigger>
@@ -227,7 +246,7 @@ const Header = () => {
               <div>
                 {isLoggedIn ? (
                   <DropdownMenu className=" p-4">
-                    <DropdownMenuTrigger>{user}</DropdownMenuTrigger>
+                    <DropdownMenuTrigger>"username"</DropdownMenuTrigger>
                     <DropdownMenuContent>
                       <DropdownMenuLabel>
                         <Link className={buttonVariants({ variant: "ghost" })}>

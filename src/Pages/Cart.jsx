@@ -11,11 +11,17 @@ import {
   removeFromCart,
 } from "../state/cart/cartSlice";
 import { Toaster, toast } from "sonner";
+import getUserData from "@/utils/getUserData";
+import axios from "axios";
 
 const Cart = () => {
   const [cartProducts, setCartProducts] = useState([]);
   const [paymentMethod, setPaymentMethod] = useState("card");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const userID = localStorage.getItem("userID");
+  const [userData, setUserData] = useState();
+  const [itemsPrice, setItemsPrice] = useState(0);
+  const [deliveryPrice, setDeliveryPrice] = useState(5);
   const cart = useSelector((state) => state.cart);
   const dispatch = useDispatch();
 
@@ -25,25 +31,40 @@ const Cart = () => {
     document.title = "Easymart | Cart";
   }, [cart]);
 
+  useEffect(() => {
+    getUserData(userID).then((data) => {
+      setUserData(data.user);
+    }
+  )}, []);
+
   const handleIncreaseQuantity = (productId) => {
-    const product = cartProducts.filter((item) => item.id === productId);
+    const product = cartProducts.filter((item) => item._id === productId);
+    console.log(product);
     if (product) {
-      dispatch(increaseQuantity({ id: productId }));
+      dispatch(increaseQuantity({ _id: productId }));
     }
   };
 
   const handleDecreaseQuantity = (productId) => {
-    const product = cartProducts.filter((item) => item.id === productId);
+    const product = cartProducts.filter((item) => item._id === productId);
     if (product) {
-      dispatch(decreaseQuantity({ id: productId }));
+      dispatch(decreaseQuantity({ _id: productId }));
     }
   };
 
   const removeProduct = (productId) => {
-    const newCart = cartProducts.filter((item) => item.id !== productId);
+    const newCart = cartProducts.filter((item) => item._id !== productId);
     if (newCart) {
-      dispatch(removeFromCart({ id: productId }));
+      dispatch(removeFromCart({ _id: productId }));
     }
+  };
+
+  const calculateTotal = () => {
+    const total = cartProducts.reduce(
+      (acc, curr) => acc + curr.price * curr.quantity,
+      0
+    );
+    setItemsPrice(total);
   };
 
   const handleSubmit = (e) => {
@@ -52,6 +73,33 @@ const Cart = () => {
       toast.error("You need to login to confirm the order");
       return;
     }
+   setUserData({
+     ...userData.userAdress={
+      ...userData.userAdress,
+      country: "Croatia"
+     }
+    })
+    calculateTotal();
+    const order = {
+      orderItems: cartProducts,
+      shippingAdress: {
+        address: userData.userAdress.street,
+        city: userData.userAdress.city,
+        postalCode: userData.userAdress.zip,
+        country: userData.userAdress.country,
+      },
+      paymentMethod: paymentMethod,
+      itemsPrice: itemsPrice,
+      deliveryPrice: deliveryPrice,
+      totalPrice: itemsPrice + deliveryPrice,
+      user: userID
+    }
+    axios.post("http://localhost:3000/api/orders", {
+      order
+    })
+    .then((res) => {
+      console.log(res);
+    })
   };
 
   return (
@@ -60,7 +108,8 @@ const Cart = () => {
       <div className="flex flex-col">
         <div className="flex-1">
           {cartProducts && cartProducts.length > 0 ? (
-            cartProducts.map((product, index) => (
+            <>
+            {cartProducts.map((product, index) => (
               <>
                 <div
                   key={index}
@@ -78,40 +127,36 @@ const Cart = () => {
                     </div>
                   </div>
                   <div className="flex items-center justify-around">
-                    <button onClick={() => handleDecreaseQuantity(product.id)}>
+                    <button onClick={() => handleDecreaseQuantity(product._id)}>
                       <FaArrowLeft />
                     </button>
                     <span className="mx-4">{product?.quantity}</span>
-                    <button onClick={() => handleIncreaseQuantity(product.id)}>
+                    <button onClick={() => handleIncreaseQuantity(product._id)}>
                       <FaArrowRight />
                     </button>
                     <div className="mx-4">
                       {product?.price * product?.quantity}$
                     </div>
-                    <button onClick={() => removeProduct(product.id)}>
+                    <button onClick={() => removeProduct(product._id)}>
                       Remove
                     </button>
                   </div>
                 </div>
-                <hr className="border-2 border-slate-300 my-10 " />
+                
+              </>
+            ))}
+            <hr className="border-2 border-slate-300 my-10 " />
                 <form onSubmit={handleSubmit}>
                   <div className="flex gap-3">
                     <div className="border-2 border-slate-500 p-5 w-1/2 rounded-md">
                       <h2 className="text-xl mb-10">Delivery information</h2>
                       <div className="flex flex-col space-y-6">
                         <div className="grid grid-cols-2 items-center">
-                          <label>First name</label>
+                          <label>Name</label>
                           <input
                             type="text"
-                            placeholder="First name"
-                            className="w-full bg-slate-100 p-2 text-black rounded-md"
-                          />
-                        </div>
-                        <div className="grid grid-cols-2 items-center">
-                          <label>Last name</label>
-                          <input
-                            type="text"
-                            placeholder="Last name"
+                            placeholder="Name"
+                            value={userData?.username}
                             className="w-full bg-slate-100 p-2 text-black rounded-md"
                           />
                         </div>
@@ -120,6 +165,7 @@ const Cart = () => {
                           <input
                             type="email"
                             placeholder="example@email.com"
+                            value={userData?.email}
                             className="w-full bg-slate-100 p-2 text-black rounded-md"
                           />
                         </div>
@@ -128,6 +174,7 @@ const Cart = () => {
                           <input
                             type="text"
                             placeholder="Address"
+                             value={userData?.userAdress?.street}
                             className="w-full bg-slate-100 p-2 text-black rounded-md"
                           />
                         </div>
@@ -136,6 +183,7 @@ const Cart = () => {
                           <input
                             type="text"
                             placeholder="City"
+                            value={userData?.userAdress?.city}
                             className="w-full bg-slate-100 p-2 text-black rounded-md"
                           />
                         </div>
@@ -144,6 +192,7 @@ const Cart = () => {
                           <input
                             type="number"
                             placeholder="ZIP"
+                            value={userData?.userAdress?.zip}
                             className="w-full bg-slate-100 p-2 text-black rounded-md"
                           />
                         </div>
@@ -260,8 +309,7 @@ const Cart = () => {
                     </button>
                   </div>
                 </form>
-              </>
-            ))
+            </>
           ) : (
             <div className="text-center text-2xl my-10">
               No products in cart

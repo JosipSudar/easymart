@@ -81,7 +81,7 @@ const Header = () => {
                 <DropdownMenuTrigger>Signed in as {username}</DropdownMenuTrigger>
                 <DropdownMenuContent>
                   <DropdownMenuLabel>
-                    <Link className={buttonVariants({ variant: "ghost" })}>
+                    <Link to={"/profile"} className={buttonVariants({ variant: "ghost" })}>
                       My Account
                     </Link>
                   </DropdownMenuLabel>

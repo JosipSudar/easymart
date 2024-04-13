@@ -15,6 +15,7 @@ import {
   Products,
   Register,
 } from "./Pages";
+import Profile from "./Pages/Profile";
 
 const Layout = ({ children }) => {
   return (
@@ -48,6 +49,7 @@ const App = () => {
           {!isLoggedIn && <Route path="login" element={<Login />} />}
           {!isLoggedIn && <Route path="register" element={<Register />} />}
           <Route path="dashboard" element={<Dashboard />} />
+          {isLoggedIn && <Route path="profile" element={<Profile />} />}
           <Route
             path="privacy-policy"
             element={

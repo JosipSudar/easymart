@@ -17,9 +17,8 @@ const Product = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const res = await axios.get(`https://dummyjson.com/products/${id}`);
-        setProduct(res.data);
-        setProduct((prev) => ({ ...prev, quantity }));
+        const res = await axios.get(`http://localhost:3000/api/products/${id}`);
+        setProduct(res.data.product);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -29,7 +28,7 @@ const Product = () => {
 
   const addToCart = () => {
     const products = cart.cart;
-    const productInCart = products.find((item) => item.id === product.id);
+    const productInCart = products.find((item) => item.id === product._id);
     if (productInCart) {
       dispach(increaseQuantity({ id: product.id }));
       toast("Increased quantity of product in cart");
@@ -41,7 +40,7 @@ const Product = () => {
 
   return (
     <>
-      {product?.id && (
+      {product?._id && (
         <main className="max-w-7xl mx-auto my-20">
           <div className="flex gap-10">
             <div className="w-2/3">

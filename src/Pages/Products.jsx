@@ -99,7 +99,7 @@ const Products = () => {
                     image={product.thumbnail}
                     name={product.title}
                     price={product.price}
-                    id={product.id}
+                    id={product._id}
                   />
                 ))}
             </div>

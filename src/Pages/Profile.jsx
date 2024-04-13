@@ -1,0 +1,103 @@
+import { Button } from "@/Components/ui/button";
+import getUserData from "@/utils/getUserData";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+
+const Profile = () => {
+  const userID = localStorage.getItem("userID");
+  const [userData, setUserData] = useState({});
+
+  useEffect(() => {
+    getUserData(userID).then((data) => {
+      console.log(data);
+      setUserData(data.user);
+    });
+  }, []);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setUserData({
+      ...userData,
+      userAdress: {
+        ...userData.userAdress,
+        [name]: value,
+      },
+    });
+  };
+
+  const updateUserData = (e) => {
+    e.preventDefault();
+    axios
+      .put(
+        `http://localhost:3000/api/user/${userID}`,
+        { userData },
+        { headers: { "Content-Type": "application/json" } }
+      )
+      .then((res) => {
+        console.log(res);
+      });
+  };
+
+  const sendEmailVerification = () => {
+    axios
+      .post("http://localhost:3000/api/user/verify", {
+        email: userData.email,
+      })
+      .then((res) => {
+        console.log(res);
+      });
+    }     
+  return (
+    <div className="flex flex-col gap-4 justify-center items-center">
+      <h1>Profile</h1>
+      <p>Welcome to your profile page</p>
+      <form className="flex flex-col gap-4" onSubmit={updateUserData}>
+        <label htmlFor="name">Name</label>
+        <input
+          value={userData.username}
+          type="text"
+          id="name"
+          name="name"
+          disabled
+        />
+        <label htmlFor="email">Email</label>
+        <input
+          value={userData.email}
+          type="email"
+          id="email"
+          name="email"
+          disabled
+        />
+        <h2>Adress info</h2>
+        <label htmlFor="street">Street</label>
+        <input
+          onChange={handleChange}
+          value={userData.userAdress?.street}
+          type="text"
+          id="street"
+          name="street"
+        />
+        <label htmlFor="city">City</label>
+        <input
+          onChange={handleChange}
+          value={userData.userAdress?.city}
+          type="text"
+          id="city"
+          name="city"
+        />
+        <label htmlFor="zip">Zip</label>
+        <input
+          onChange={handleChange}
+          value={userData.userAdress?.zip}
+          type="text"
+          id="zip"
+          name="zip"
+        />
+        <button type="submit">Update</button>
+      </form>
+      <Button onClick={sendEmailVerification}>Send email verification</Button>
+    </div>
+  );
+};
+
+export default Profile;

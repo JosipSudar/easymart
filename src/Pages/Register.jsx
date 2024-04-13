@@ -20,7 +20,7 @@ const Register = () => {
         )
         .then((res) => {
           alert(res.data.msg);
-          if (res.data.success) {
+          if (res.status === 201) {
             setTimeout(() => {
               navigate("/login");
             }, 2000);

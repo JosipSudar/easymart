@@ -32,6 +32,7 @@ const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [items, setItems] = useState();
   const [username, setUsername] = useState("");
+  const [role, setRole] = useState("user");
   const navigate = useNavigate();
   const cart = useSelector((state) => state.cart);
   const userID = localStorage.getItem("userID");
@@ -48,6 +49,7 @@ const Header = () => {
     if (userID) {
       getUserData(userID).then((data) => {
         setUsername(data.user.username)
+        setRole(data.user.role)
       });
     }
   }, [username]);
@@ -55,8 +57,10 @@ const Header = () => {
   const logout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("userID");
+    localStorage.removeItem("reduxState");
     setIsLoggedIn(false);
     navigate("/login");
+    window.location.reload();
   };
 
   const removeItem = (id) => {
@@ -78,7 +82,11 @@ const Header = () => {
           <div>
             {isLoggedIn ? (
               <DropdownMenu className=" p-4">
-                <DropdownMenuTrigger>Signed in as {username}</DropdownMenuTrigger>
+                <DropdownMenuTrigger>
+                  <div className="flex items-center justify-center gap-2">
+                  Signed in as {username} <IoIosArrowDown />
+                  </div>
+                </DropdownMenuTrigger>
                 <DropdownMenuContent>
                   <DropdownMenuLabel>
                     <Link to={"/profile"} className={buttonVariants({ variant: "ghost" })}>
@@ -95,6 +103,17 @@ const Header = () => {
                       Logout
                     </Button>
                   </DropdownMenuItem>
+                  {role === "admin" && (
+                    <>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem>
+                        <Link to={"/dashboard"} className={buttonVariants({ variant: "ghost" })}>
+                          Dashboard
+                        </Link>
+                      </DropdownMenuItem>
+                    </>
+                  )  
+                  }
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : (

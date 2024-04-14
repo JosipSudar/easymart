@@ -9,7 +9,6 @@ const Profile = () => {
 
   useEffect(() => {
     getUserData(userID).then((data) => {
-      console.log(data);
       setUserData(data.user);
     });
   }, []);
@@ -46,7 +45,9 @@ const Profile = () => {
       .then((res) => {
         console.log(res);
       });
-    }     
+    }    
+    
+    const checkEmailVerification = userData.verified ? true : false;
   return (
     <div className="flex flex-col gap-4 justify-center items-center">
       <h1>Profile</h1>
@@ -54,6 +55,7 @@ const Profile = () => {
       <form className="flex flex-col gap-4" onSubmit={updateUserData}>
         <label htmlFor="name">Name</label>
         <input
+        className="border-2 border-gray-300 "
           value={userData.username}
           type="text"
           id="name"
@@ -62,6 +64,7 @@ const Profile = () => {
         />
         <label htmlFor="email">Email</label>
         <input
+        className="border-2 border-gray-300 "
           value={userData.email}
           type="email"
           id="email"
@@ -71,6 +74,7 @@ const Profile = () => {
         <h2>Adress info</h2>
         <label htmlFor="street">Street</label>
         <input
+        className="border-2 border-gray-300 "
           onChange={handleChange}
           value={userData.userAdress?.street}
           type="text"
@@ -79,6 +83,7 @@ const Profile = () => {
         />
         <label htmlFor="city">City</label>
         <input
+        className="border-2 border-gray-300 "
           onChange={handleChange}
           value={userData.userAdress?.city}
           type="text"
@@ -87,15 +92,25 @@ const Profile = () => {
         />
         <label htmlFor="zip">Zip</label>
         <input
+        className="border-2 border-gray-300 "
           onChange={handleChange}
           value={userData.userAdress?.zip}
           type="text"
           id="zip"
           name="zip"
         />
+        <label htmlFor="country">Country</label>
+        <input
+        className="border-2 border-gray-300 "
+          onChange={handleChange}
+          value={userData.userAdress?.country}
+          type="text"
+          id="country"
+          name="country"
+        />
         <button type="submit">Update</button>
       </form>
-      <Button onClick={sendEmailVerification}>Send email verification</Button>
+      {!checkEmailVerification && ( <Button onClick={sendEmailVerification}>Send email verification</Button>)}
     </div>
   );
 };

@@ -80,25 +80,28 @@ const Cart = () => {
      }
     })
     calculateTotal();
-    const order = {
+    axios
+    .post("http://localhost:3000/api/orders", {
       orderItems: cartProducts,
-      shippingAdress: {
-        address: userData.userAdress.street,
-        city: userData.userAdress.city,
-        postalCode: userData.userAdress.zip,
-        country: userData.userAdress.country,
-      },
+      adress: userData.userAdress.street,
+      city: userData.userAdress.city,
+      postalCode: userData.userAdress.zip,
+      country: userData.userAdress.country,
       paymentMethod: paymentMethod,
       itemsPrice: itemsPrice,
       deliveryPrice: deliveryPrice,
       totalPrice: itemsPrice + deliveryPrice,
-      user: userID
-    }
-    axios.post("http://localhost:3000/api/orders", {
-      order
+      user: userID,
     })
     .then((res) => {
-      console.log(res);
+      if(res.status === 201) {
+        alert("Order placed successfully")
+        localStorage.removeItem("reduxState")
+        setTimeout(() => {
+          window.location.reload()
+        }
+        , 2000)
+      }
     })
   };
 

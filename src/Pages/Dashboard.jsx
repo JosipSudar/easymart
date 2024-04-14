@@ -8,10 +8,20 @@ import {
   TableRow,
 } from "@/Components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/Components/ui/tabs";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { FaUsers, FaBox, FaProductHunt } from "react-icons/fa";
 import { GoGraph } from "react-icons/go";
 
 const Dashboard = () => {
+  const [products, setProducts] = useState([])
+
+  useEffect(() => {
+    axios.get("http://localhost:3000/api/products").then((res) => {
+      setProducts(res.data.products)
+    }
+    )
+  }, [])
   return (
     <div className="m-5">
       <h1 className="text-5xl font-bold text-center mb-10">Dashboard</h1>
@@ -119,22 +129,37 @@ const Dashboard = () => {
             <TableHeader>
               <TableRow>
                 <TableHead className="w-[100px]">ID</TableHead>
-                <TableHead>Username</TableHead>
-                <TableHead>Email</TableHead>
-                <TableHead>Purchases</TableHead>
-                <TableHead className="text-right">Time Created</TableHead>
-                <TableHead className="text-right">RoleID</TableHead>
+                <TableHead>Title</TableHead>
+                <TableHead>Desc</TableHead>
+                <TableHead>Price</TableHead>
+                <TableHead className="text-right">Discount %</TableHead>
+                <TableHead className="text-right">Rating</TableHead>
+                 <TableHead className="text-right">Stock</TableHead>
+                 <TableHead className="text-right">Brand</TableHead>
+                 <TableHead className="text-right">Category</TableHead>
+                 <TableHead className="text-right">Thumbnail</TableHead>
+                 <TableHead className="text-right">Images</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              <TableRow>
-                <TableCell className="font-medium">1</TableCell>
-                <TableCell>JohnDoe</TableCell>
-                <TableCell>lSfQJ@example.com</TableCell>
-                <TableCell>10</TableCell>
-                <TableCell className="text-right">2022-01-01</TableCell>
-                <TableCell className="text-right">Admin</TableCell>
-              </TableRow>
+            {products && products.map((product) => (
+                 <TableRow key={product._id}>
+                  <TableCell className="font-medium">{product._id}</TableCell>
+                  <TableCell>{product.title}</TableCell>
+                  <TableCell>{product.description}</TableCell>
+                  <TableCell>{product.price}</TableCell>
+                  <TableCell className="text-right">{product.discountPercentage}</TableCell>
+                  <TableCell className="text-right">{product.rating}</TableCell>
+                  <TableCell className="text-right">{product.stock}</TableCell>
+                  <TableCell className="text-right">{product.brand}</TableCell>
+                  <TableCell className="text-right">{product.category}</TableCell>
+                  <TableCell className="text-right"><img src={product.thumbnail} className=" w-20 h-20 object-contain"/></TableCell>
+                  <TableCell className="text-right">{product.images.map((image)=>{
+                    return <img src={image} alt="" className="w-10 h-10"/>
+                  }
+                  )}</TableCell>
+                </TableRow>
+              ))} 
             </TableBody>
           </Table>
         </TabsContent>

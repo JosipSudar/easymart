@@ -8,10 +8,9 @@ import {
   AccordionTrigger,
 } from "./ui/accordion";
 
-const Aside = ({ products, onFilterChange }) => {
+const Aside = ({ products, onFilterChange, query }) => {
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [selectedBrands, setSelectedBrands] = useState([]);
-
   const handleCategoryChange = (category) => {
     const index = selectedCategories.indexOf(category);
     if (index === -1) {
@@ -35,6 +34,9 @@ const Aside = ({ products, onFilterChange }) => {
   };
 
   useEffect(() => {
+    if (query) {
+      setSelectedCategories([query]);
+    }
     const filteredProducts = products.filter((product) => {
       const matchesCategory =
         selectedCategories.length === 0 ||
@@ -45,7 +47,10 @@ const Aside = ({ products, onFilterChange }) => {
     });
 
     onFilterChange(filteredProducts);
-  }, [selectedCategories, selectedBrands]);
+    console.log(query, "test");
+    console.log(selectedCategories, "selectedCategories");
+    console.log(products, "products");
+  }, [selectedCategories, selectedBrands, query]);
 
   return (
     <aside className=" bg-slate-300 p-5 rounded-lg">
@@ -100,6 +105,7 @@ const Aside = ({ products, onFilterChange }) => {
 Aside.propTypes = {
   products: PropTypes.array.isRequired,
   onFilterChange: PropTypes.func.isRequired,
+  query: PropTypes.string,
 };
 
 export default Aside;

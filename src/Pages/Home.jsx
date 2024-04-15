@@ -4,6 +4,7 @@ import Featured from "../Components/Featured";
 import axios from "axios";
 import Gallery from "../Components/Gallery";
 import Newsletter from "../Components/Newsletter";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   const [scrollPosition, setScrollPosition] = useState(0);
@@ -12,10 +13,9 @@ const Home = () => {
 
   const fetchFP = async () => {
     try {
-      const res = await axios.get(
-        "https://dummyjson.com/products?limit=5&skip=10"
-      );
-      setFeaturedProducts(res.data.products);
+      const res = await axios.get("http://localhost:3000/api/products");
+      const sliceproducts = res.data.slice(0, 10);
+      setFeaturedProducts(sliceproducts);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -100,12 +100,13 @@ const Home = () => {
         </div>
         <div className="grid grid-cols-5 gap-10 text-center">
           {featuredCategories.map((category, index) => (
-            <div
+            <Link
               key={index}
-              className="p-2 hover:bg-blue-200 rounded-lg scale-110 duration-300"
+              to={`/products?category=${category}`}
+              className="p-2 hover:bg-blue-200 rounded-lg scale-110 duration-300 cursor-pointer"
             >
               <p className="text-lg font-bold">{category}</p>
-            </div>
+            </Link>
           ))}
         </div>
       </div>

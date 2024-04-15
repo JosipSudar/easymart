@@ -7,6 +7,7 @@ import Loader from "../assets/loading.svg";
 
 const Products = () => {
   const [allProducts, setAllProducts] = useState([]);
+  const query = new URLSearchParams(window.location.search).get("category");
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
@@ -89,6 +90,7 @@ const Products = () => {
               <Aside
                 products={allProducts}
                 onFilterChange={handleFilterChange}
+                query={query}
               />
             </div>
             <div className=" w-full grid grid-cols-1 gap-4 h-full lg:w-2/3 lg:grid-cols-3">

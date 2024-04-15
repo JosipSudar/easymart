@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useState } from "react";
 
 const Newsletter = () => {
@@ -6,12 +7,22 @@ const Newsletter = () => {
   const [success, setSuccess] = useState(false);
   const [err, setErr] = useState(false);
 
-  const handleEmailChange = (event) => {
-    event.preventDefault();
+  const sendEmail = (email) => {
+    axios
+      .post("http://localhost:3000/api/newsletter", { email })
+      .then((res) => {
+        console.log(res);
+      });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
     if (email.match(regex)) {
+      sendEmail(email);
       setSuccess(true);
       setEmail("");
-    } else if (email === "") {
+      setErr(false);
+    } else {
       setErr(true);
       setEmail("");
     }
@@ -25,22 +36,29 @@ const Newsletter = () => {
           <p className="text-2xl mt-4">Subscribe to our newsletter</p>
         </div>
         <div className="">
-          <form onSubmit={handleEmailChange}>
+          <form onSubmit={handleSubmit}>
             <input
-              type="text"
+              type="email"
               className="p-2 outline-none text-black"
               placeholder="Email address..."
               onChange={(e) => setEmail(e.target.value)}
+              value={email}
             />
             <button className="p-2 bg-white text-black hover:bg-black hover:text-white">
               Subscribe
             </button>
           </form>
+          <div className=" mt-5">
+            {success && (
+              <p className=" text-green-600 text-xl text-center">
+                Email sent successfully
+              </p>
+            )}
+            {err && (
+              <p className=" text-red-700 text-xl text-center">Invalid email</p>
+            )}
+          </div>
         </div>
-      </div>
-      <div>
-        <p>{success ? "Thank you for subscribing!" : ""}</p>
-        <p>{err ? "Please enter a valid email address" : ""}</p>
       </div>
     </div>
   );

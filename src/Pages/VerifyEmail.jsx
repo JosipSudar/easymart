@@ -1,9 +1,11 @@
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import DarkModeContext from "@/state/DarkMode";
 
 const VerifyEmail = () => {
   const { id } = useParams();
+  const { darkMode } = useContext(DarkModeContext);
 
   useEffect(() => {
     localStorage.setItem("token", id);
@@ -27,10 +29,12 @@ const VerifyEmail = () => {
       });
   }, [id]);
   return (
-    <div>
-      <h1 className=" text-center text-4xl font-medium mt-20">
-        Thank you for verifying your email you can continue shopping now!{" "}
-      </h1>
+    <div className={darkMode ? "dark" : ""}>
+      <div className="dark:bg-slate-800 dark:text-white">
+        <h1 className=" text-center text-4xl font-medium pt-20">
+          Thank you for verifying your email you can continue shopping now!{" "}
+        </h1>
+      </div>
     </div>
   );
 };

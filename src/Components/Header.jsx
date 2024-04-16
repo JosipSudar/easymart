@@ -1,8 +1,7 @@
-import { GrLanguage } from "react-icons/gr";
 import { IoIosArrowDown } from "react-icons/io";
 import { FaCartShopping } from "react-icons/fa6";
 import { Link, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   Sheet,
@@ -22,11 +21,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
-import { FaTrashAlt } from "react-icons/fa";
+import { FaTrashAlt, FaSun, FaMoon } from "react-icons/fa";
 import { CiMenuFries } from "react-icons/ci";
 import { removeFromCart } from "@/state/cart/cartSlice";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import getUserData from "@/utils/getUserData";
+import DarkModeContext from "@/state/DarkMode";
 
 const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -37,6 +37,7 @@ const Header = () => {
   const cart = useSelector((state) => state.cart);
   const userID = localStorage.getItem("userID");
   const dispach = useDispatch();
+  const { darkMode, toggleDarkMode } = useContext(DarkModeContext);
 
   useEffect(() => {
     if (localStorage.getItem("token")) {
@@ -48,8 +49,8 @@ const Header = () => {
   useEffect(() => {
     if (userID) {
       getUserData(userID).then((data) => {
-        setUsername(data.user.username)
-        setRole(data.user.role)
+        setUsername(data.user.username);
+        setRole(data.user.role);
       });
     }
   }, [username]);
@@ -68,12 +69,17 @@ const Header = () => {
   };
 
   return (
-    <>
-      <header className=" hidden lg:flex justify-between h-24 items-center p-5 shadow-lg bg-white">
+    <div className={darkMode ? "dark" : ""}>
+      <header className=" hidden lg:flex justify-between h-24 items-center p-5 shadow-lg dark:bg-slate-800 dark:text-white">
         <div className="flex gap-3 items-center text-xl">
-          <div className="flex gap-2 items-center">
-            <GrLanguage />
-            <IoIosArrowDown />
+          <div className="mr-auto items-center flex">
+            <button onClick={toggleDarkMode}>
+              {!darkMode ? (
+                <FaSun className="text-3xl text-yellow-500" />
+              ) : (
+                <FaMoon className="text-3xl" />
+              )}
+            </button>
           </div>
           <div className="flex items-center gap-2">
             <span>USD</span>
@@ -84,12 +90,15 @@ const Header = () => {
               <DropdownMenu className=" p-4">
                 <DropdownMenuTrigger>
                   <div className="flex items-center justify-center gap-2">
-                  Signed in as {username} <IoIosArrowDown />
+                    Signed in as {username} <IoIosArrowDown />
                   </div>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
                   <DropdownMenuLabel>
-                    <Link to={"/profile"} className={buttonVariants({ variant: "ghost" })}>
+                    <Link
+                      to={"/profile"}
+                      className={buttonVariants({ variant: "ghost" })}
+                    >
                       My Account
                     </Link>
                   </DropdownMenuLabel>
@@ -107,13 +116,15 @@ const Header = () => {
                     <>
                       <DropdownMenuSeparator />
                       <DropdownMenuItem>
-                        <Link to={"/dashboard"} className={buttonVariants({ variant: "ghost" })}>
+                        <Link
+                          to={"/dashboard"}
+                          className={buttonVariants({ variant: "ghost" })}
+                        >
                           Dashboard
                         </Link>
                       </DropdownMenuItem>
                     </>
-                  )  
-                  }
+                  )}
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : (
@@ -154,18 +165,18 @@ const Header = () => {
             </Link>
             {!isLoggedIn && (
               <>
-              <Link
-                to="/login"
-                className="hover:text-blue-500 transition duration-300 hover:underline underline-offset-8"
-              >
-                Login
-              </Link>
-              <Link
-                to="/register"
-                className="hover:text-blue-500 transition duration-300 hover:underline underline-offset-8"
-              >
-                Register
-              </Link>
+                <Link
+                  to="/login"
+                  className="hover:text-blue-500 transition duration-300 hover:underline underline-offset-8"
+                >
+                  Login
+                </Link>
+                <Link
+                  to="/register"
+                  className="hover:text-blue-500 transition duration-300 hover:underline underline-offset-8"
+                >
+                  Register
+                </Link>
               </>
             )}
             <Sheet>
@@ -265,7 +276,7 @@ const Header = () => {
               <div>
                 {isLoggedIn ? (
                   <DropdownMenu className=" p-4">
-                    <DropdownMenuTrigger>"username"</DropdownMenuTrigger>
+                    <DropdownMenuTrigger>username</DropdownMenuTrigger>
                     <DropdownMenuContent>
                       <DropdownMenuLabel>
                         <Link className={buttonVariants({ variant: "ghost" })}>
@@ -341,7 +352,7 @@ const Header = () => {
           </SheetContent>
         </Sheet>
       </header>
-    </>
+    </div>
   );
 };
 

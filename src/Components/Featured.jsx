@@ -9,7 +9,11 @@ const Featured = ({ image, desc, name, price, rating, id }) => {
       className="flex flex-col
      items-center h-[500px] hover:scale-105 transition-all duration-300 ease-in-out"
     >
-      <img src={image} alt={desc} className=" w-[300px] h-[300px]" />
+      <img
+        src={image}
+        alt={desc}
+        className=" w-[300px] h-[300px] object-cover rounded-lg"
+      />
       <div className="flex flex-1 items-center justify-center">
         <p className="text-xl m-4 text-center">{name}</p>
       </div>

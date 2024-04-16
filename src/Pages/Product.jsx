@@ -1,18 +1,19 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { FaStar } from "react-icons/fa";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "sonner";
 import { Toaster } from "sonner";
 import { increaseQuantity } from "@/state/cart/cartSlice";
+import DarkModeContext from "@/state/DarkMode";
 
 const Product = () => {
   const { id } = useParams();
   const [product, setProduct] = useState({});
-  let quantity = 1;
   const dispach = useDispatch();
   const cart = useSelector((state) => state.cart);
+  const { darkMode } = useContext(DarkModeContext);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -39,56 +40,63 @@ const Product = () => {
   };
 
   return (
-    <>
+    <div className={darkMode ? "dark" : ""}>
       {product?._id && (
-        <main className="max-w-7xl mx-auto my-20">
-          <div className="flex gap-10">
-            <div className="w-2/3">
-              <img
-                src={product.thumbnail}
-                alt="product"
-                className="w-full rounded-md"
-              />
-            </div>
-            <div className="w-1/3 space-y-12">
-              <h3 className="text-5xl font-bold text-center">
-                {product.title}
-              </h3>
-              <p className="text-3xl">Price: {product.price}$</p>
-              <div className="flex justify-between">
-                <div className="flex items-center gap-2">
-                  <p>Rating: {product.rating}</p>
-                  <FaStar className="text-yellow-500" />
+        <div className="dark:bg-slate-800 dark:text-white">
+          <main className="max-w-7xl mx-auto py-20">
+            <div className="flex gap-10">
+              <div className="w-2/3">
+                <img
+                  src={product.thumbnail}
+                  alt="product"
+                  className="w-full rounded-md"
+                />
+              </div>
+              <div className="w-1/3 space-y-12">
+                <h3 className="text-5xl font-bold text-center">
+                  {product.title}
+                </h3>
+                <p className="text-3xl">Price: {product.price}$</p>
+                <div className="flex justify-between">
+                  <div className="flex items-center gap-2">
+                    <p>Rating: {product.rating}</p>
+                    <FaStar className="text-yellow-500" />
+                  </div>
+                  <p>In stock: {product.stock}</p>
                 </div>
-                <p>In stock: {product.stock}</p>
+                <div className="space-y-2">
+                  <p className="text-xl">Brand: {product.brand}</p>
+                  <p className="text-xl">Category: {product.category}</p>
+                </div>
+                <button
+                  className="w-full bg-blue-500 text-white rounded-md p-4"
+                  onClick={() => addToCart()}
+                >
+                  Add to cart
+                </button>
               </div>
-              <div className="space-y-2">
-                <p className="text-xl">Brand: {product.brand}</p>
-                <p className="text-xl">Category: {product.category}</p>
+            </div>
+            <div className="my-20">
+              <p className="text-3xl text-center">{product.description}</p>
+            </div>
+            <div>
+              <h3 className="text-2xl my-10">Product Gallery</h3>
+              <div className="flex overflow-x-auto h-60 gap-4">
+                {product?.images.map((image, index) => (
+                  <img
+                    src={image}
+                    alt="product"
+                    key={index}
+                    className="w-1/3"
+                  />
+                ))}
               </div>
-              <button
-                className="w-full bg-blue-500 text-white rounded-md p-4"
-                onClick={() => addToCart()}
-              >
-                Add to cart
-              </button>
             </div>
-          </div>
-          <div className="my-20">
-            <p className="text-3xl text-center">{product.description}</p>
-          </div>
-          <div>
-            <h3 className="text-2xl my-10">Product Gallery</h3>
-            <div className="flex overflow-x-auto h-60">
-              {product?.images.map((image, index) => (
-                <img src={image} alt="product" key={index} className="w-1/3" />
-              ))}
-            </div>
-          </div>
-          <Toaster />
-        </main>
+            <Toaster />
+          </main>
+        </div>
       )}
-    </>
+    </div>
   );
 };
 

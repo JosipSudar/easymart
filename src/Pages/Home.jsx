@@ -1,20 +1,22 @@
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { useState } from "react";
 import Featured from "../Components/Featured";
 import axios from "axios";
 import Gallery from "../Components/Gallery";
 import Newsletter from "../Components/Newsletter";
 import { Link } from "react-router-dom";
+import DarkModeContext from "@/state/DarkMode";
 
 const Home = () => {
   const [scrollPosition, setScrollPosition] = useState(0);
   const [featuredProducts, setFeaturedProducts] = useState([]);
   const [featuredCategories, setFeaturedCategories] = useState([]);
+  const { darkMode } = useContext(DarkModeContext);
 
   const fetchFP = async () => {
     try {
       const res = await axios.get("http://localhost:3000/api/products");
-      const sliceproducts = res.data.slice(0, 10);
+      const sliceproducts = res.data.products.slice(10, 15);
       setFeaturedProducts(sliceproducts);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -44,8 +46,8 @@ const Home = () => {
   }, []);
 
   return (
-    <main>
-      <div className="relative h-screen overflow-hidden">
+    <main className={darkMode ? "dark" : ""}>
+      <div className="relative h-screen overflow-hidden dark:bg-slate-800">
         <video
           autoPlay
           muted
@@ -66,48 +68,54 @@ const Home = () => {
         </div>
       </div>
 
-      <div className=" max-w-[1200px] mx-auto">
-        <div className="flex justify-between mb-10 items-center">
-          <h2 className="text-3xl font-bold">Featured Products</h2>
-          <p className="text-gray-500 text-lg">
-            Discover our top picks from the latest trends and must-have items.
-          </p>
-        </div>
-        <div className="grid grid-cols-5 gap-6">
-          {featuredProducts.map((product) => (
-            <Featured
-              key={product.id}
-              image={product.thumbnail}
-              desc={product.description}
-              name={product.title}
-              price={product.price}
-              rating={product.rating}
-              id={product.id}
-            />
-          ))}
+      <div className="dark:bg-slate-800 dark:text-white">
+        <div className=" max-w-[1200px] mx-auto">
+          <div className="flex justify-between mb-10 items-center">
+            <h2 className="text-3xl font-bold">Featured Products</h2>
+            <p className="text-gray-500 text-lg">
+              Discover our top picks from the latest trends and must-have items.
+            </p>
+          </div>
+          <div className="grid grid-cols-5 gap-6">
+            {featuredProducts.map((product) => (
+              <Featured
+                key={product._id}
+                image={product.thumbnail}
+                desc={product.description}
+                name={product.title}
+                price={product.price}
+                rating={product.rating}
+                id={product._id}
+              />
+            ))}
+          </div>
         </div>
       </div>
 
-      <Gallery />
+      <div className="dark:bg-slate-800 dark:text-white p-12">
+        <Gallery />
+      </div>
 
-      <div className=" max-w-[1200px] mx-auto my-36">
-        <div className="flex flex-col justify-between mb-20 items-center">
-          <h2 className="text-3xl font-bold">Featured Categories</h2>
-          <p className="text-gray-500 text-lg">
-            From Fashion to Electronics, Our Featured Categories Have Something
-            for Everyone!
-          </p>
-        </div>
-        <div className="grid grid-cols-5 gap-10 text-center">
-          {featuredCategories.map((category, index) => (
-            <Link
-              key={index}
-              to={`/products?category=${category}`}
-              className="p-2 hover:bg-blue-200 rounded-lg scale-110 duration-300 cursor-pointer"
-            >
-              <p className="text-lg font-bold">{category}</p>
-            </Link>
-          ))}
+      <div className="dark:bg-slate-800 dark:text-white">
+        <div className=" max-w-[1200px] mx-auto py-20">
+          <div className="flex flex-col justify-between mb-20 items-center">
+            <h2 className="text-3xl font-bold">Featured Categories</h2>
+            <p className="text-gray-500 text-lg">
+              From Fashion to Electronics, Our Featured Categories Have
+              Something for Everyone!
+            </p>
+          </div>
+          <div className="grid grid-cols-5 gap-10 text-center">
+            {featuredCategories.map((category, index) => (
+              <Link
+                key={index}
+                to={`/products?category=${category}`}
+                className="p-2 hover:bg-blue-200 rounded-lg scale-110 duration-300 cursor-pointer"
+              >
+                <p className="text-lg font-bold">{category}</p>
+              </Link>
+            ))}
+          </div>
         </div>
       </div>
 

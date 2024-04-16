@@ -29,7 +29,7 @@ const Newsletter = () => {
   };
 
   return (
-    <div className="mt-36 bg-blue-500 py-20">
+    <div className=" bg-blue-500 py-20">
       <div className="max-w-[1200px] mx-auto flex justify-around items-center text-white">
         <div>
           <h3 className="text-5xl">Newsletter</h3>

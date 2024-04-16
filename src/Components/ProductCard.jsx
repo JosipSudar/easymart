@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const ProductCard = ({ image, name, price, id }) => {
   return (
-    <section className="rounded-lg flex flex-col gap-3 border-slate-500 border-2 p-5">
+    <section className="rounded-lg flex flex-col gap-3 border-slate-500 border-2 p-5 bg-white text-black font-bold">
       <img
         src={image}
         alt="image"

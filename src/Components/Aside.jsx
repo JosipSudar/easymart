@@ -50,7 +50,7 @@ const Aside = ({ products, onFilterChange, query }) => {
     console.log(query, "test");
     console.log(selectedCategories, "selectedCategories");
     console.log(products, "products");
-  }, [selectedCategories, selectedBrands, query]);
+  }, [products, query]);
 
   return (
     <aside className=" bg-slate-300 p-5 rounded-lg">

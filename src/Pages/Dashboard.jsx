@@ -39,11 +39,10 @@ const Dashboard = () => {
     images: [],
   });
 
-  const updateProductData = (e) => {
-    e.preventDefault();
+  const updateProductData = (id) => {
     axios
       .patch(
-        `http://localhost:3000/api/products/${productData._id}`,
+        `http://localhost:3000/api/products/${id}`,
         productData
       )
       .then((res) => {
@@ -75,7 +74,7 @@ const Dashboard = () => {
     axios.get("http://localhost:3000/api/orders").then((res) => {
       setOrders(res.data.orders);
     });
-  }, []);
+  }, [products]);
   return (
     <div className="m-5">
       <h1 className="text-5xl font-bold text-center mb-10">Dashboard</h1>
@@ -280,22 +279,21 @@ const Dashboard = () => {
                       </td>
                       <td className="px-6 py-4">
                         <Dialog>
-                          <DialogTrigger className="text-blue-500 underline">
+                          <DialogTrigger onClick={()=>setProductData(product)} className="text-blue-500 underline">
                             View details
                           </DialogTrigger>
                           <DialogContent>
                             <DialogHeader>
                               <DialogTitle>{product._id}</DialogTitle>
                               <DialogDescription>
-                                <form
+                                <div
                                   className="flex flex-col gap-2"
-                                  onSubmit={updateProductData}
                                 >
                                   <div className="flex gap-2 items-center">
                                     <label htmlFor="title">Title</label>
                                     <input
                                       className="border-2 border-gray-300 p-2 rounded-md ml-auto w-full"
-                                      value={product.title}
+                                      value={productData.title}
                                       type="text"
                                       id="title"
                                       name="title"
@@ -308,7 +306,7 @@ const Dashboard = () => {
                                     </label>
                                     <input
                                       className="border-2 border-gray-300 p-2 rounded-md ml-auto w-full"
-                                      value={product.description}
+                                      value={productData.description}
                                       type="text"
                                       id="description"
                                       name="description"
@@ -407,7 +405,7 @@ const Dashboard = () => {
                                   </div>
                                   <div className="flex items-center gap-2 justify-center">
                                     <button
-                                      type="submit"
+                                      onClick={() => updateProductData(product._id)}
                                       className="bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600"
                                     >
                                       Update
@@ -419,7 +417,7 @@ const Dashboard = () => {
                                       Delete
                                     </button>
                                   </div>
-                                </form>
+                                </div>
                               </DialogDescription>
                             </DialogHeader>
                           </DialogContent>

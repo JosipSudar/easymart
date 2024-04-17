@@ -229,7 +229,14 @@ const Header = () => {
           </nav>
         </div>
       </header>
-      <header className="flex justify-between bg-white py-4 px-10 lg:hidden">
+      <header className="flex justify-between bg-white py-4 px-10 lg:hidden dark:bg-slate-800 text-white">
+        <button onClick={toggleDarkMode} className="-mr-[300px] md:mr-0">
+          {!darkMode ? (
+            <FaSun className="text-xl text-yellow-500" />
+          ) : (
+            <FaMoon className="text-xl" />
+          )}
+        </button>
         <Popover>
           <PopoverTrigger>
             <CiMenuFries className=" w-5 h-5" />
@@ -306,7 +313,7 @@ const Header = () => {
           <SheetTrigger>
             <div className=" relative">
               <FaCartShopping className=" w-8 h-8" />
-              <span className="absolute top-0 right-0 text-white bg-blue-500 rounded-full w-5 h-5 flex justify-center items-center">
+              <span className="absolute -top-2 -right-3 text-white bg-blue-500 rounded-full w-5 h-5 flex justify-center items-center">
                 {items ? items.length : 0}
               </span>
             </div>

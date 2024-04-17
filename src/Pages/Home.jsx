@@ -63,20 +63,22 @@ const Home = () => {
           />
           Your browser does not support the video tag.
         </video>
-        <div className="absolute inset-0 flex items-center justify-center text-white text-3xl font-bold shadow-lg">
+        <div className="absolute inset-0 flex items-center justify-center text-white lg:text-3xl font-bold shadow-lg text-xl md:text-2xl text-center">
           Discover amazing deals and discounts on a wide range of products
         </div>
       </div>
 
       <div className="dark:bg-slate-800 dark:text-white">
-        <div className=" max-w-[1200px] mx-auto">
-          <div className="flex justify-between mb-10 items-center">
-            <h2 className="text-3xl font-bold">Featured Products</h2>
-            <p className="text-gray-500 text-lg">
+        <div className=" max-w-[1200px] mx-auto  md:mx-2">
+          <div className="flex justify-between mb-10 items-center flex-col md:flex-row">
+            <h2 className="lg:text-5xl font-bold text-4xl mb-10 md:mb-0">
+              Featured Products
+            </h2>
+            <p className="text-gray-500 text-lg text-center">
               Discover our top picks from the latest trends and must-have items.
             </p>
           </div>
-          <div className="grid grid-cols-5 gap-6">
+          <div className="md:grid md:grid-cols-5 md:gap-6 flex flex-col gap-2">
             {featuredProducts.map((product) => (
               <Featured
                 key={product._id}

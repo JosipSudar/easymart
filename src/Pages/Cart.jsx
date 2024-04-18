@@ -77,12 +77,6 @@ const Cart = () => {
       toast.error("You need to login to confirm the order");
       return;
     }
-    setUserData({
-      ...(userData.userAdress = {
-        ...userData.userAdress,
-        country: "Croatia",
-      }),
-    });
     calculateTotal();
     axios
       .post("http://localhost:3000/api/orders", {
@@ -102,6 +96,7 @@ const Cart = () => {
           alert("Order placed successfully");
           localStorage.removeItem("reduxState");
           navigate("/order-success");
+          window.location.reload();
         }
       });
   };
@@ -134,13 +129,17 @@ const Cart = () => {
                         </div>
                         <div className="flex items-center justify-around">
                           <button
+                            disabled={product.quantity === 1}
                             onClick={() => handleDecreaseQuantity(product._id)}
+                            className=" disabled:cursor-not-allowed disabled:opacity-50"
                           >
                             <FaArrowLeft />
                           </button>
                           <span className="mx-4">{product?.quantity}</span>
                           <button
                             onClick={() => handleIncreaseQuantity(product._id)}
+                            disabled={product.quantity === product.stock}
+                            className=" disabled:cursor-not-allowed disabled:opacity-50"
                           >
                             <FaArrowRight />
                           </button>
@@ -325,7 +324,7 @@ const Cart = () => {
                   </form>
                 </>
               ) : (
-                <div className="text-center text-2xl my-10">
+                <div className="text-center text-2xl my-10 h-[50vh]">
                   No products in cart
                 </div>
               )}

@@ -21,6 +21,8 @@ import {
   DialogTrigger,
 } from "@/Components/ui/dialog";
 import { DialogDescription, DialogTitle } from "@radix-ui/react-dialog";
+import { Button } from "@/Components/ui/button";
+import { Toaster, toast } from "sonner";
 
 const Dashboard = () => {
   const [products, setProducts] = useState([]);
@@ -41,12 +43,11 @@ const Dashboard = () => {
 
   const updateProductData = (id) => {
     axios
-      .patch(
-        `http://localhost:3000/api/products/${id}`,
-        productData
-      )
+      .patch(`http://localhost:3000/api/products/${id}`, productData)
       .then((res) => {
-        console.log(res);
+        if (res.status === 200) {
+          toast("Product updated successfully", { type: "success" });
+        }
       });
   };
 
@@ -56,6 +57,45 @@ const Dashboard = () => {
       ...productData,
       [name]: value,
     });
+  };
+
+  const handleImageChange = (e, index) => {
+    const { value } = e.target;
+    const images = productData.images;
+    images[index] = value;
+    setProductData({
+      ...productData,
+      images,
+    });
+  };
+
+  const addImage = () => {
+    setProductData({
+      ...productData,
+      images: [...productData.images, ""],
+    });
+  };
+
+  const addProduct = () => {
+    axios
+      .post("http://localhost:3000/api/products", productData)
+      .then((res) => {
+        if (res.status === 201) {
+          alert("Product added successfully");
+          setProductData({
+            title: "",
+            description: "",
+            price: "",
+            discountPercentage: "",
+            rating: "",
+            stock: "",
+            brand: "",
+            category: "",
+            thumbnail: "",
+            images: [],
+          });
+        }
+      });
   };
 
   const deleteProduct = (id) => {
@@ -202,6 +242,137 @@ const Dashboard = () => {
           </Table>
         </TabsContent>
         <TabsContent value="products">
+          <Dialog>
+            <DialogTrigger className="bg-green-700">Add Product</DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Product details</DialogTitle>
+                <DialogDescription>
+                  <div className="flex flex-col gap-2">
+                    <div className="flex gap-2 items-center">
+                      <label htmlFor="title">Title</label>
+                      <input
+                        className="border-2 border-gray-300 p-2 rounded-md ml-auto w-full"
+                        value={productData.title}
+                        type="text"
+                        id="title"
+                        name="title"
+                        onChange={handleChange}
+                      />
+                    </div>
+                    <div className="flex gap-2 items-center">
+                      <label htmlFor="description">Description</label>
+                      <input
+                        className="border-2 border-gray-300 p-2 rounded-md ml-auto w-full"
+                        value={productData.description}
+                        type="text"
+                        id="description"
+                        name="description"
+                        onChange={handleChange}
+                      />
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <label htmlFor="price">Price</label>
+                      <input
+                        className="border-2 border-gray-300 p-2 rounded-md ml-auto w-full"
+                        value={productData.price}
+                        type="text"
+                        id="price"
+                        name="price"
+                        onChange={handleChange}
+                      />
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <label htmlFor="discountPercentage">
+                        Discount Percentage
+                      </label>
+                      <input
+                        className="border-2 border-gray-300 p-2 rounded-md w-full ml-auto"
+                        value={productData.discountPercentage}
+                        type="text"
+                        id="discountPercentage"
+                        name="discountPercentage"
+                        onChange={handleChange}
+                      />
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <label htmlFor="rating">Rating</label>
+                      <input
+                        className="border-2 border-gray-300 p-2 rounded-md w-full ml-auto"
+                        value={productData.rating}
+                        type="text"
+                        id="rating"
+                        name="rating"
+                        onChange={handleChange}
+                      />
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <label htmlFor="stock">Stock</label>
+                      <input
+                        className="border-2 border-gray-300 p-2 rounded-md ml-auto w-full"
+                        value={productData.stock}
+                        type="text"
+                        id="stock"
+                        name="stock"
+                        onChange={handleChange}
+                      />
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <label htmlFor="brand">Brand</label>
+                      <input
+                        className="border-2 border-gray-300 p-2 rounded-md ml-auto w-full"
+                        value={productData.brand}
+                        type="text"
+                        id="brand"
+                        name="brand"
+                        onChange={handleChange}
+                      />
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <label htmlFor="category">Category</label>
+                      <input
+                        className="border-2 border-gray-300 p-2 rounded-md w-full ml-auto"
+                        value={productData.category}
+                        type="text"
+                        id="category"
+                        name="category"
+                        onChange={handleChange}
+                      />
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <label htmlFor="thumbnail">Thumbnail</label>
+                      <input
+                        className="border-2 border-gray-300 p-2 rounded-md w-full ml-auto"
+                        value={productData.thumbnail}
+                        type="text"
+                        id="thumbnail"
+                        name="thumbnail"
+                        onChange={handleChange}
+                      />
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <label htmlFor="images">Images</label>
+                      {productData.images.map((image, index) => (
+                        <input
+                          key={index}
+                          className="border-2 border-gray-300 p-2 rounded-md w-full ml-auto"
+                          value={image}
+                          type="text"
+                          id="images"
+                          name="images"
+                          onChange={(e) => handleImageChange(e, index)}
+                        />
+                      ))}
+                      <Button onClick={addImage}>Add Image</Button>
+                    </div>
+                    <div className="flex items-center gap-2 justify-center">
+                      <Button onClick={addProduct}>Add</Button>
+                    </div>
+                  </div>
+                </DialogDescription>
+              </DialogHeader>
+            </DialogContent>
+          </Dialog>
           <div className="relative overflow-x-auto">
             <table className="w-full text-sm text-left rtl:text-right text-gray-500">
               <thead className="text-xs text-gray-700 uppercase bg-gray-100">
@@ -279,16 +450,17 @@ const Dashboard = () => {
                       </td>
                       <td className="px-6 py-4">
                         <Dialog>
-                          <DialogTrigger onClick={()=>setProductData(product)} className="text-blue-500 underline">
+                          <DialogTrigger
+                            onClick={() => setProductData(product)}
+                            className="text-blue-500 underline"
+                          >
                             View details
                           </DialogTrigger>
                           <DialogContent>
                             <DialogHeader>
                               <DialogTitle>{product._id}</DialogTitle>
                               <DialogDescription>
-                                <div
-                                  className="flex flex-col gap-2"
-                                >
+                                <div className="flex flex-col gap-2">
                                   <div className="flex gap-2 items-center">
                                     <label htmlFor="title">Title</label>
                                     <input
@@ -405,7 +577,9 @@ const Dashboard = () => {
                                   </div>
                                   <div className="flex items-center gap-2 justify-center">
                                     <button
-                                      onClick={() => updateProductData(product._id)}
+                                      onClick={() =>
+                                        updateProductData(product._id)
+                                      }
                                       className="bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600"
                                     >
                                       Update
@@ -430,6 +604,7 @@ const Dashboard = () => {
           </div>
         </TabsContent>
       </Tabs>
+      <Toaster position="bottom-left" />
     </div>
   );
 };

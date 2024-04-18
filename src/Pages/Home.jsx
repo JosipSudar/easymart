@@ -69,7 +69,7 @@ const Home = () => {
       </div>
 
       <div className="dark:bg-slate-800 dark:text-white">
-        <div className=" max-w-[1200px] mx-auto  md:mx-2">
+        <div className=" max-w-[1200px] mx-auto  md:mx-2 lg:mx-auto">
           <div className="flex justify-between mb-10 items-center flex-col md:flex-row">
             <h2 className="lg:text-5xl font-bold text-4xl mb-10 md:mb-0">
               Featured Products

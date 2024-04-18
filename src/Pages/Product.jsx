@@ -68,12 +68,21 @@ const Product = () => {
                   <p className="text-xl">Brand: {product.brand}</p>
                   <p className="text-xl">Category: {product.category}</p>
                 </div>
-                <button
-                  className="w-full bg-blue-500 text-white rounded-md p-4"
-                  onClick={() => addToCart()}
-                >
-                  Add to cart
-                </button>
+                {product.stock > 0 ? (
+                  <button
+                    onClick={addToCart}
+                    className="bg-blue-500 text-white px-4 py-2 rounded-md w-full"
+                  >
+                    Add to cart
+                  </button>
+                ) : (
+                  <button
+                    className="bg-red-500 text-white px-4 py-2 rounded-md w-full"
+                    disabled
+                  >
+                    Out of stock
+                  </button>
+                )}
               </div>
             </div>
             <div className="my-20">
@@ -87,12 +96,12 @@ const Product = () => {
                     src={image}
                     alt="product"
                     key={index}
-                    className="w-1/3"
+                    className="w-1/3 rounded-md object-cover"
                   />
                 ))}
               </div>
             </div>
-            <Toaster />
+            <Toaster position="bottom-left" />
           </main>
         </div>
       )}

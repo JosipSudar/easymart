@@ -82,7 +82,7 @@ const Products = () => {
                 <label className="font-md">Search by name</label>
                 <input
                   type="text"
-                  className="border-2 border-blue-500 rounded-lg p-2 outline-none"
+                  className="border-2 border-blue-500 rounded-lg p-2 outline-none dark:text-black"
                   onChange={handleSearchInputChange}
                 />
               </form>

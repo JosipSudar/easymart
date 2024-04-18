@@ -32,9 +32,11 @@ const Layout = ({ children }) => {
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [role, setRole] = useState();
 
   useEffect(() => {
     localStorage.getItem("token") ? setIsLoggedIn(true) : setIsLoggedIn(false);
+    setRole(localStorage.getItem("role"));
   }, [isLoggedIn]);
 
   return (
@@ -50,7 +52,9 @@ const App = () => {
           <Route path="contact" element={<Contact />} />
           {!isLoggedIn && <Route path="login" element={<Login />} />}
           {!isLoggedIn && <Route path="register" element={<Register />} />}
-          <Route path="dashboard" element={<Dashboard />} />
+          {role === "admin" && (
+            <Route path="dashboard" element={<Dashboard />} />
+          )}
           {isLoggedIn && <Route path="profile" element={<Profile />} />}
           <Route
             path="privacy-policy"

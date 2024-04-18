@@ -37,6 +37,7 @@ const Aside = ({ products, onFilterChange, query }) => {
     if (query) {
       setSelectedCategories([query]);
     }
+
     const filteredProducts = products.filter((product) => {
       const matchesCategory =
         selectedCategories.length === 0 ||
@@ -47,10 +48,7 @@ const Aside = ({ products, onFilterChange, query }) => {
     });
 
     onFilterChange(filteredProducts);
-    console.log(query, "test");
-    console.log(selectedCategories, "selectedCategories");
-    console.log(products, "products");
-  }, [products, query]);
+  }, [products, selectedCategories, selectedBrands, query]);
 
   return (
     <aside className=" bg-slate-300 p-5 rounded-lg">

@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { users } from "../constants/userData";
 import DarkModeContext from "@/state/DarkMode";
@@ -121,12 +121,12 @@ const Login = () => {
                 </button>
                 <p className="text-sm font-light text-gray-500 ">
                   Don’t have an account yet?{" "}
-                  <a
-                    href="#"
+                  <Link
+                    to="/register"
                     className="font-medium text-primary-600 hover:underline "
                   >
                     Sign up
-                  </a>
+                  </Link>
                 </p>
               </form>
             </div>

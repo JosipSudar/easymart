@@ -30,12 +30,14 @@ const Newsletter = () => {
 
   return (
     <div className=" bg-blue-500 py-20">
-      <div className="max-w-[1200px] mx-auto flex justify-around items-center text-white">
+      <div className="max-w-[1200px] mx-auto flex justify-around items-center text-white flex-col md:flex-row">
         <div>
-          <h3 className="text-5xl">Newsletter</h3>
-          <p className="text-2xl mt-4">Subscribe to our newsletter</p>
+          <h3 className="text-5xl text-center md:text-left">Newsletter</h3>
+          <p className="text-2xl mt-4 text-center md:text-left">
+            Subscribe to our newsletter
+          </p>
         </div>
-        <div className="">
+        <div className="mt-5 md:mt-0 ">
           <form onSubmit={handleSubmit}>
             <input
               type="email"

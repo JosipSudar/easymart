@@ -8,8 +8,8 @@ const Footer = () => {
 
   return (
     <div className={darkMode ? "dark" : ""}>
-      <footer className="flex justify-between items-center p-5 bg-white pt-24 dark:bg-slate-800 dark:text-white">
-        <nav className="flex flex-col gap-3">
+      <footer className="flex justify-between items-center p-5 bg-white pt-24 dark:bg-slate-800 dark:text-white flex-wrap md:flex-nowrap">
+        <nav className="flex flex-col gap-3 mb-3 ">
           <Link
             to="/"
             className="hover:text-blue-500 transition duration-300 hover:underline underline-offset-8"

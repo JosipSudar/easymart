@@ -43,16 +43,16 @@ const Product = () => {
     <div className={darkMode ? "dark" : ""}>
       {product?._id && (
         <div className="dark:bg-slate-800 dark:text-white">
-          <main className="max-w-7xl mx-auto py-20">
-            <div className="flex gap-10">
-              <div className="w-2/3">
+          <main className="max-w-7xl mx-auto py-10 px-5 md:py-20">
+            <div className="flex gap-10 flex-wrap md:flex-nowrap">
+              <div className="md:w-2/3 w-full">
                 <img
                   src={product.thumbnail}
                   alt="product"
                   className="w-full rounded-md"
                 />
               </div>
-              <div className="w-1/3 space-y-12">
+              <div className="md:w-1/3 space-y-12 w-full">
                 <h3 className="text-5xl font-bold text-center">
                   {product.title}
                 </h3>
@@ -90,13 +90,13 @@ const Product = () => {
             </div>
             <div>
               <h3 className="text-2xl my-10">Product Gallery</h3>
-              <div className="flex overflow-x-auto h-60 gap-4">
+              <div className="flex md:overflow-x-auto md:h-60 gap-4 flex-col md:flex-row">
                 {product?.images.map((image, index) => (
                   <img
                     src={image}
                     alt="product"
                     key={index}
-                    className="w-1/3 rounded-md object-cover"
+                    className="md:w-1/3 rounded-md object-cover w-full"
                   />
                 ))}
               </div>

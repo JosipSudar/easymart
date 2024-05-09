@@ -104,7 +104,7 @@ const Cart = () => {
   return (
     <div className={darkMode ? "dark" : ""}>
       <div className="dark:bg-slate-800 dark:text-white">
-        <main className="max-w-7xl mx-auto py-20">
+        <main className="max-w-7xl mx-auto py-20 px-2">
           <h1 className="text-3xl text-center">Cart</h1>
           <div className="flex flex-col">
             <div className="flex-1">
@@ -158,8 +158,8 @@ const Cart = () => {
                   ))}
                   <hr className="border-2 border-slate-300 my-10" />
                   <form onSubmit={handleSubmit}>
-                    <div className="flex gap-3">
-                      <div className="border-2 border-slate-500 p-5 w-1/2 rounded-md bg-white text-black">
+                    <div className="flex gap-3 flex-col lg:flex-row">
+                      <div className="border-2 border-slate-500 p-5 lg:w-1/2 rounded-md bg-white text-black">
                         <h2 className="text-xl mb-10">Delivery information</h2>
                         <div className="flex flex-col space-y-6">
                           <div className="grid grid-cols-2 items-center">
@@ -209,7 +209,7 @@ const Cart = () => {
                           </div>
                         </div>
                       </div>
-                      <div className="border-2 border-slate-500 p-5 w-1/2 rounded-md bg-white text-black">
+                      <div className="border-2 border-slate-500 p-5 lg:w-1/2 rounded-md bg-white text-black">
                         <h2 className="text-xl">Payment method</h2>
                         <div>
                           <div>
@@ -316,7 +316,7 @@ const Cart = () => {
                     <div className="my-10 flex justify-center">
                       <button
                         type="submit"
-                        className="bg-blue-500 text-white p-3 rounded-md w-1/3"
+                        className="bg-blue-500 text-white p-3 rounded-md lg:w-1/3 w-full hover:bg-blue-600"
                       >
                         Confirm order
                       </button>
@@ -324,7 +324,7 @@ const Cart = () => {
                   </form>
                 </>
               ) : (
-                <div className="text-center text-2xl my-10 h-[50vh]">
+                <div className="text-center text-2xl my-10 md:h-[80vh]">
                   No products in cart
                 </div>
               )}

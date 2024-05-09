@@ -12,7 +12,7 @@ const About = () => {
   return (
     <div className={darkMode ? "dark" : ""}>
       <div className="dark:bg-slate-800 dark:text-white">
-        <main className="max-w-7xl mx-auto py-40 space-y-56">
+        <main className="max-w-7xl mx-auto md:py-40 space-y-56 px-5 py-10">
           <div>
             <h1 className="text-5xl text-center mb-10">Welcome to easymart.</h1>
             <p className="text-3xl">
@@ -22,7 +22,7 @@ const About = () => {
               affordability, and reliability.
             </p>
           </div>
-          <div className="flex gap-10">
+          <div className="flex gap-10 flex-wrap md:flex-nowrap">
             <div>
               <h2 className="text-4xl mb-10">Our Story</h2>
               <p className="text-3xl">
@@ -36,7 +36,7 @@ const About = () => {
             <img
               src="/src/assets/images/thumbnail.png"
               alt="img"
-              className="w-1/3 object-cover rounded-lg"
+              className="md:w-1/3 object-cover rounded-lg"
             />
           </div>
           <div>
@@ -76,7 +76,7 @@ const About = () => {
             </p>
           </div>
           <p
-            className="w-full h-96 text-3xl text-white text-center items-center justify-center flex font-bold bg-gray-300"
+            className="w-full h-96 md:text-3xl text-white text-center items-center justify-center flex font-bold bg-gray-300 text-xl"
             style={{
               backgroundImage:
                 "url('https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Y3VzdG9tZXJ8ZW58MHx8MHx8fDA%3D')",

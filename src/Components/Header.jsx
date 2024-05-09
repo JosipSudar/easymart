@@ -70,7 +70,7 @@ const Header = () => {
 
   return (
     <div className={darkMode ? "dark" : ""}>
-      <header className=" hidden lg:flex justify-between h-24 items-center p-5 shadow-lg dark:bg-slate-800 dark:text-white">
+      <header className=" hidden lg:flex justify-between h-24 items-center p-5 shadow-lg dark:bg-slate-800 dark:text-white text-black">
         <div className="flex gap-3 items-center text-xl">
           <div className="mr-auto items-center flex">
             <button onClick={toggleDarkMode}>
@@ -229,14 +229,7 @@ const Header = () => {
           </nav>
         </div>
       </header>
-      <header className="flex justify-between bg-white py-4 px-10 lg:hidden dark:bg-slate-800 text-white">
-        <button onClick={toggleDarkMode} className="-mr-[300px] md:mr-0">
-          {!darkMode ? (
-            <FaSun className="text-xl text-yellow-500" />
-          ) : (
-            <FaMoon className="text-xl" />
-          )}
-        </button>
+      <header className="flex justify-between bg-white py-4 px-10 lg:hidden dark:bg-slate-800 dark:text-white text-black">
         <Popover>
           <PopoverTrigger>
             <CiMenuFries className=" w-5 h-5" />
@@ -306,6 +299,13 @@ const Header = () => {
                   <p>No user logged in</p>
                 )}
               </div>
+              <button onClick={toggleDarkMode} className="md:mr-0">
+                {!darkMode ? (
+                  <FaSun className="text-xl text-yellow-500" />
+                ) : (
+                  <FaMoon className="text-xl" />
+                )}
+              </button>
             </nav>
           </PopoverContent>
         </Popover>
@@ -321,7 +321,7 @@ const Header = () => {
           <SheetContent className="flex flex-col justify-between">
             <SheetHeader>
               <SheetTitle>My cart</SheetTitle>
-              <SheetDescription className="grid grid-cols-2 gap-2 max-h-[80vh] overflow-y-scroll w-full">
+              <SheetDescription className="flex flex-col gap-2 items-center w-full overflow-auto">
                 {items ? (
                   items.map((item) => (
                     <div

@@ -16,7 +16,7 @@ const Contact = () => {
   return (
     <div className={darkMode ? "dark" : ""}>
       <div className="dark:bg-slate-800 dark:text-white">
-        <main className="max-w-7xl mx-auto space-y-20 pt-40">
+        <main className="max-w-7xl mx-auto space-y-20 md:pt-40 pt-20 px-5">
           <div>
             <h1 className="text-5xl text-center mb-10">Contact Us</h1>
             <p className="text-xl">
@@ -26,7 +26,7 @@ const Contact = () => {
               with us using the information below:
             </p>
           </div>
-          <div className="grid grid-cols-2 gap-10">
+          <div className="grid md:grid-cols-2 gap-10">
             <div className="space-y-4">
               <h2 className="text-3xl">Customer Support:</h2>
               <p className="text-lg">
@@ -55,7 +55,7 @@ const Contact = () => {
               </ul>
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-10 items-center">
+          <div className="grid md:grid-cols-2 gap-10 items-center">
             <div className="space-y-4">
               <h3 className="text-2xl">Headquarters:</h3>
               <p className="text-lg">

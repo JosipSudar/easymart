@@ -63,13 +63,13 @@ const Home = () => {
           />
           Your browser does not support the video tag.
         </video>
-        <div className="absolute inset-0 flex items-center justify-center text-white lg:text-3xl font-bold shadow-lg text-xl md:text-2xl text-center">
+        <div className="absolute inset-0 flex items-center justify-center text-white lg:text-4xl font-bold shadow-lg text-2xl md:text-3xl text-center mx-1">
           Discover amazing deals and discounts on a wide range of products
         </div>
       </div>
 
       <div className="dark:bg-slate-800 dark:text-white">
-        <div className=" max-w-[1200px] mx-auto  md:mx-2 lg:mx-auto">
+        <div className=" max-w-[1200px]  md:mx-2 lg:mx-auto">
           <div className="flex justify-between mb-10 items-center flex-col md:flex-row">
             <h2 className="lg:text-5xl font-bold text-4xl mb-10 md:mb-0">
               Featured Products
@@ -78,7 +78,7 @@ const Home = () => {
               Discover our top picks from the latest trends and must-have items.
             </p>
           </div>
-          <div className="md:grid md:grid-cols-5 md:gap-6 flex flex-col gap-2">
+          <div className="md:grid md:grid-cols-5 md:gap-6 flex flex-col gap-3">
             {featuredProducts.map((product) => (
               <Featured
                 key={product._id}
@@ -94,11 +94,11 @@ const Home = () => {
         </div>
       </div>
 
-      <div className="dark:bg-slate-800 dark:text-white p-12">
+      <div className="dark:bg-slate-800 dark:text-white p-12 hidden md:block">
         <Gallery />
       </div>
 
-      <div className="dark:bg-slate-800 dark:text-white">
+      <div className="dark:bg-slate-800 dark:text-white p-2">
         <div className=" max-w-[1200px] mx-auto py-20">
           <div className="flex flex-col justify-between mb-20 items-center">
             <h2 className="text-3xl font-bold">Featured Categories</h2>
@@ -107,7 +107,7 @@ const Home = () => {
               Something for Everyone!
             </p>
           </div>
-          <div className="grid grid-cols-5 gap-10 text-center">
+          <div className="grid grid-cols-2 gap-10 text-center md:grid-cols-5">
             {featuredCategories.map((category, index) => (
               <Link
                 key={index}

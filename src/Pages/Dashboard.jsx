@@ -172,7 +172,7 @@ const Dashboard = () => {
           </TabsContent>
           <TabsContent value="products">
             <Dialog>
-              <DialogTrigger className="bg-green-700">
+              <DialogTrigger className="bg-green-700 rounded-md p-2 text-gray-200 my-2">
                 Add Product
               </DialogTrigger>
               <DialogContent>

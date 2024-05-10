@@ -16,7 +16,6 @@ import { Toaster, toast } from "sonner";
 import DarkModeContext from "@/state/DarkMode";
 import UserTable from "@/Components/tables/UserTable";
 import OrdersTable from "@/Components/tables/OrdersTable";
-import LineChart from "@/Components/LineChart";
 
 const Dashboard = () => {
   const [products, setProducts] = useState([]);
@@ -158,9 +157,7 @@ const Dashboard = () => {
               />
             </div>
             <div className="flex gap-5 items-center">
-              <div className="w-1/2">
-                <LineChart />
-              </div>
+              <div className="w-1/2"></div>
               <div className="w-1/2"></div>
             </div>
           </TabsContent>

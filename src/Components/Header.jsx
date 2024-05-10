@@ -65,7 +65,7 @@ const Header = () => {
   };
 
   const removeItem = (id) => {
-    dispach(removeFromCart({ id }));
+    dispach(removeFromCart({ _id: id }));
   };
 
   return (
@@ -204,7 +204,7 @@ const Header = () => {
                           <p>{item.title}</p>
                           <p>${item.price}</p>
                           <Button
-                            onClick={() => removeItem(item.id)}
+                            onClick={() => removeItem(item._id)}
                             variant="secondary"
                           >
                             <FaTrashAlt />
@@ -336,7 +336,7 @@ const Header = () => {
                       <p>{item.title}</p>
                       <p>${item.price}</p>
                       <Button
-                        onClick={() => removeItem(item.id)}
+                        onClick={() => removeItem(item._id)}
                         variant="secondary"
                       >
                         <FaTrashAlt />

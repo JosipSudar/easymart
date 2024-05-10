@@ -8,47 +8,65 @@ import {
   AccordionTrigger,
 } from "./ui/accordion";
 
-const Aside = ({ products, onFilterChange, query }) => {
+const Aside = ({ products, onFilterChange, query, currentPage, pageSize }) => {
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [selectedBrands, setSelectedBrands] = useState([]);
   const handleCategoryChange = (category) => {
-    const index = selectedCategories.indexOf(category);
-    if (index === -1) {
-      setSelectedCategories([...selectedCategories, category]);
-    } else {
-      const newCategories = [...selectedCategories];
-      newCategories.splice(index, 1);
-      setSelectedCategories(newCategories);
-    }
+    const newSelectedCategories = selectedCategories.includes(category)
+      ? selectedCategories.filter((c) => c !== category)
+      : [...selectedCategories, category];
+
+    setSelectedCategories(newSelectedCategories);
+
+    const filteredProducts = products.filter((product) => {
+      const matchesCategory =
+        newSelectedCategories.length === 0 ||
+        newSelectedCategories.includes(product.category);
+      const matchesBrand =
+        selectedBrands.length === 0 || selectedBrands.includes(product.brand);
+      return matchesCategory && matchesBrand;
+    });
+
+    const startIndex = (currentPage - 1) * pageSize;
+    const paginatedProducts = filteredProducts.slice(
+      startIndex,
+      startIndex + pageSize
+    );
+
+    onFilterChange(paginatedProducts);
   };
 
   const handleBrandChange = (brand) => {
-    const index = selectedBrands.indexOf(brand);
-    if (index === -1) {
-      setSelectedBrands([...selectedBrands, brand]);
-    } else {
-      const newBrands = [...selectedBrands];
-      newBrands.splice(index, 1);
-      setSelectedBrands(newBrands);
-    }
-  };
+    const newSelectedBrands = selectedBrands.includes(brand)
+      ? selectedBrands.filter((b) => b !== brand)
+      : [...selectedBrands, brand];
 
-  useEffect(() => {
-    if (query) {
-      setSelectedCategories([query]);
-    }
+    setSelectedBrands(newSelectedBrands);
 
     const filteredProducts = products.filter((product) => {
       const matchesCategory =
         selectedCategories.length === 0 ||
         selectedCategories.includes(product.category);
       const matchesBrand =
-        selectedBrands.length === 0 || selectedBrands.includes(product.brand);
+        newSelectedBrands.length === 0 ||
+        newSelectedBrands.includes(product.brand);
       return matchesCategory && matchesBrand;
     });
 
-    onFilterChange(filteredProducts);
-  }, [products, selectedCategories, selectedBrands, query]);
+    const startIndex = (currentPage - 1) * pageSize;
+    const paginatedProducts = filteredProducts.slice(
+      startIndex,
+      startIndex + pageSize
+    );
+
+    onFilterChange(paginatedProducts);
+  };
+
+  useEffect(() => {
+    if (query) {
+      setSelectedCategories([query]);
+    }
+  }, [selectedCategories, selectedBrands]);
 
   return (
     <aside className=" bg-slate-300 p-5 rounded-lg">
@@ -104,6 +122,8 @@ Aside.propTypes = {
   products: PropTypes.array.isRequired,
   onFilterChange: PropTypes.func.isRequired,
   query: PropTypes.string,
+  currentPage: PropTypes.number.isRequired,
+  pageSize: PropTypes.number.isRequired,
 };
 
 export default Aside;

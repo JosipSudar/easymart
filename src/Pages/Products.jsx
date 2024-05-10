@@ -9,7 +9,7 @@ import DarkModeContext from "@/state/DarkMode";
 const Products = () => {
   const [allProducts, setAllProducts] = useState([]);
   const query = new URLSearchParams(window.location.search).get("category");
-  const [filteredProducts, setFilteredProducts] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 20;
@@ -46,7 +46,6 @@ const Products = () => {
     if (currentPage < Math.ceil(allProducts.length / pageSize)) {
       setCurrentPage(currentPage + 1);
     }
-    fetchProducts(currentPage);
   };
 
   const prevPage = () => {
@@ -56,7 +55,6 @@ const Products = () => {
     ) {
       setCurrentPage(currentPage - 1);
     }
-    fetchProducts(currentPage);
   };
 
   const handleFilterChange = (filteredProducts) => {
@@ -94,6 +92,8 @@ const Products = () => {
                   products={allProducts}
                   onFilterChange={handleFilterChange}
                   query={query}
+                  currentPage={currentPage}
+                  pageSize={pageSize}
                 />
               </div>
               <div className=" w-full grid grid-cols-1 gap-4 h-full lg:w-3/4 lg:grid-cols-4">
@@ -113,11 +113,11 @@ const Products = () => {
             {filteredProducts.length > 0 && (
               <div className="mt-10">
                 <div className="flex flex-col items-center">
-                  <span className="text-sm">
-                    Showing <span className="font-semibold">1</span> to
-                    <span className="font-semibold">{pageSize}</span> of{" "}
-                    <span className="font-semibold">{allProducts.length}</span>{" "}
-                    Entries
+                  <span className="text-sm font-semibold">
+                    {pageSize * (currentPage - 1) + 1} -{" "}
+                    {pageSize * currentPage > allProducts.length
+                      ? allProducts.length
+                      : pageSize * currentPage}{" "}
                   </span>
                   <div className="inline-flex mt-2 xs:mt-0 gap-1">
                     <Button

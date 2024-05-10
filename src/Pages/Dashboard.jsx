@@ -16,6 +16,7 @@ import { Toaster, toast } from "sonner";
 import DarkModeContext from "@/state/DarkMode";
 import UserTable from "@/Components/tables/UserTable";
 import OrdersTable from "@/Components/tables/OrdersTable";
+import LineChart from "@/Components/LineChart";
 
 const Dashboard = () => {
   const [products, setProducts] = useState([]);
@@ -112,7 +113,7 @@ const Dashboard = () => {
 
   return (
     <div className={darkMode ? "dark" : ""}>
-      <div className="p-5 ">
+      <div className="p-5">
         <h1 className="text-5xl font-bold text-center mb-10">Dashboard</h1>
         <Tabs defaultValue="summary" className="">
           <TabsList className=" text-black w-full gap-5 h-full mb-10 bg-white">
@@ -130,7 +131,7 @@ const Dashboard = () => {
             </TabsTrigger>
           </TabsList>
           <TabsContent value="summary">
-            <div className="flex justify-evenly my-5 gap-10">
+            <div className="flex justify-evenly my-5 gap-10 lg:flex-row flex-col">
               <DashboardCard
                 title="Total Users"
                 number={users.length}
@@ -157,7 +158,9 @@ const Dashboard = () => {
               />
             </div>
             <div className="flex gap-5 items-center">
-              <div className="w-1/2"></div>
+              <div className="w-1/2">
+                <LineChart />
+              </div>
               <div className="w-1/2"></div>
             </div>
           </TabsContent>

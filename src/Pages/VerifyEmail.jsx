@@ -2,6 +2,7 @@ import { useContext, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import DarkModeContext from "@/state/DarkMode";
+import { baseUrl } from "@/utils/baseUrl";
 
 const VerifyEmail = () => {
   const { id } = useParams();
@@ -11,7 +12,7 @@ const VerifyEmail = () => {
     localStorage.setItem("token", id);
     axios
       .get(
-        `http://localhost:3000/api/user/verify/${id}`,
+        `${baseUrl}/api/user/verify/${id}`,
         {
           id,
         },

@@ -7,6 +7,7 @@ import { toast } from "sonner";
 import { Toaster } from "sonner";
 import { increaseQuantity } from "@/state/cart/cartSlice";
 import DarkModeContext from "@/state/DarkMode";
+import { baseUrl } from "@/utils/baseUrl";
 
 const Product = () => {
   const { id } = useParams();
@@ -18,7 +19,7 @@ const Product = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const res = await axios.get(`http://localhost:3000/api/products/${id}`);
+        const res = await axios.get(`${baseUrl}/api/products/${id}`);
         setProduct(res.data.product);
       } catch (error) {
         console.error("Error fetching data:", error);

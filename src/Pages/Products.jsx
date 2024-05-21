@@ -5,6 +5,7 @@ import Aside from "../Components/Aside";
 import { Button } from "@/Components/ui/button";
 import Loader from "../assets/loading.svg";
 import DarkModeContext from "@/state/DarkMode";
+import { baseUrl } from "@/utils/baseUrl";
 
 const Products = () => {
   const [allProducts, setAllProducts] = useState([]);
@@ -17,7 +18,7 @@ const Products = () => {
 
   const fetchProducts = async () => {
     try {
-      const res = await axios.get("http://localhost:3000/api/products");
+      const res = await axios.get(`${baseUrl}/api/products`);
       const products = res.data.products;
       const startIndex = currentPage === 1 ? 0 : (currentPage - 1) * pageSize;
       const endIndex = startIndex + pageSize;

@@ -6,6 +6,7 @@ import Gallery from "../Components/Gallery";
 import Newsletter from "../Components/Newsletter";
 import { Link } from "react-router-dom";
 import DarkModeContext from "@/state/DarkMode";
+import { baseUrl } from "@/utils/baseUrl";
 
 const Home = () => {
   const [scrollPosition, setScrollPosition] = useState(0);
@@ -15,7 +16,7 @@ const Home = () => {
 
   const fetchFP = async () => {
     try {
-      const res = await axios.get("http://localhost:3000/api/products");
+      const res = await axios.get(`${baseUrl}/api/products`);
       const sliceproducts = res.data.products.slice(10, 15);
       setFeaturedProducts(sliceproducts);
     } catch (error) {

@@ -15,6 +15,7 @@ import getUserData from "@/utils/getUserData";
 import axios from "axios";
 import DarkModeContext from "@/state/DarkMode";
 import { useNavigate } from "react-router-dom";
+import { baseUrl } from "@/utils/baseUrl";
 
 const Cart = () => {
   const [cartProducts, setCartProducts] = useState([]);
@@ -79,7 +80,7 @@ const Cart = () => {
     }
     calculateTotal();
     axios
-      .post("http://localhost:3000/api/orders", {
+      .post(`${baseUrl}/api/orders`, {
         orderItems: cartProducts,
         adress: userData.userAdress.street,
         city: userData.userAdress.city,

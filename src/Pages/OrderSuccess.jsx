@@ -1,4 +1,5 @@
 import DarkModeContext from "@/state/DarkMode";
+import { baseUrl } from "@/utils/baseUrl";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { FaRegCircleCheck } from "react-icons/fa6";
@@ -9,7 +10,7 @@ const OrderSuccess = () => {
   const { darkMode } = useContext(DarkModeContext);
 
   useEffect(() => {
-    axios.get("http://localhost:3000/api/orders").then((res) => {
+    axios.get(`${baseUrl}/api/orders`).then((res) => {
       setOrders(res.data.orders);
     });
   });

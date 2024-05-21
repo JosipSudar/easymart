@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { users } from "../constants/userData";
 import DarkModeContext from "@/state/DarkMode";
+import { baseUrl } from "@/utils/baseUrl";
 
 const Login = () => {
   const [username, setUsername] = useState(users.username);
@@ -16,7 +17,7 @@ const Login = () => {
     try {
       axios
         .post(
-          "http://localhost:3000/api/user/login",
+          `${baseUrl}/api/user/login`,
           { username, password },
           { headers: { "Content-Type": "application/json" } }
         )

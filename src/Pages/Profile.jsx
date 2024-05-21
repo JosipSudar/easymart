@@ -1,5 +1,6 @@
 import { Button } from "@/Components/ui/button";
 import DarkModeContext from "@/state/DarkMode";
+import { baseUrl } from "@/utils/baseUrl";
 import getUserData from "@/utils/getUserData";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
@@ -40,7 +41,7 @@ const Profile = () => {
     e.preventDefault();
     axios
       .put(
-        `http://localhost:3000/api/user/${userID}`,
+        `${baseUrl}/api/user/${userID}`,
         { userData },
         { headers: { "Content-Type": "application/json" } }
       )
@@ -51,7 +52,7 @@ const Profile = () => {
 
   const sendEmailVerification = () => {
     axios
-      .post("http://localhost:3000/api/user/verify", {
+      .post(`${baseUrl}/api/user/verify`, {
         email: userData.email,
       })
       .then((res) => {

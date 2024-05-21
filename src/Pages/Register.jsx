@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import DarkModeContext from "@/state/DarkMode";
+import { baseUrl } from "@/utils/baseUrl";
 
 const Register = () => {
   const [username, setUsername] = useState();
@@ -16,7 +17,7 @@ const Register = () => {
     try {
       axios
         .post(
-          "http://localhost:3000/api/user/register",
+          `${baseUrl}/api/user/register`,
           { username, email, password },
           { headers: { "Content-Type": "application/json" } }
         )

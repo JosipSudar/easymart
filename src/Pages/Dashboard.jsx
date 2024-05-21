@@ -17,6 +17,7 @@ import DarkModeContext from "@/state/DarkMode";
 import UserTable from "@/Components/tables/UserTable";
 import OrdersTable from "@/Components/tables/OrdersTable";
 import LineChart from "@/Components/LineChart";
+import { baseUrl } from "@/utils/baseUrl";
 
 const Dashboard = () => {
   const [products, setProducts] = useState([]);
@@ -37,13 +38,11 @@ const Dashboard = () => {
   const darkMode = useContext(DarkModeContext);
 
   const updateProductData = (id) => {
-    axios
-      .patch(`http://localhost:3000/api/products/${id}`, productData)
-      .then((res) => {
-        if (res.status === 200) {
-          toast("Product updated successfully", { type: "success" });
-        }
-      });
+    axios.patch(`${baseUrl}/api/products/${id}`, productData).then((res) => {
+      if (res.status === 200) {
+        toast("Product updated successfully", { type: "success" });
+      }
+    });
   };
 
   const handleChange = (e) => {
@@ -72,41 +71,39 @@ const Dashboard = () => {
   };
 
   const addProduct = () => {
-    axios
-      .post("http://localhost:3000/api/products", productData)
-      .then((res) => {
-        if (res.status === 201) {
-          alert("Product added successfully");
-          setProductData({
-            title: "",
-            description: "",
-            price: "",
-            discountPercentage: "",
-            rating: "",
-            stock: "",
-            brand: "",
-            category: "",
-            thumbnail: "",
-            images: [],
-          });
-        }
-      });
+    axios.post(`${baseUrl}/api/products`, productData).then((res) => {
+      if (res.status === 201) {
+        alert("Product added successfully");
+        setProductData({
+          title: "",
+          description: "",
+          price: "",
+          discountPercentage: "",
+          rating: "",
+          stock: "",
+          brand: "",
+          category: "",
+          thumbnail: "",
+          images: [],
+        });
+      }
+    });
   };
 
   const deleteProduct = (id) => {
-    axios.delete(`http://localhost:3000/api/products/${id}`).then((res) => {
+    axios.delete(`${baseUrl}/api/products/${id}`).then((res) => {
       console.log(res);
     });
   };
 
   useEffect(() => {
-    axios.get("http://localhost:3000/api/products").then((res) => {
+    axios.get(`${baseUrl}/api/products`).then((res) => {
       setProducts(res.data.products);
     });
-    axios.get("http://localhost:3000/api/user").then((res) => {
+    axios.get(`${baseUrl}/api/user`).then((res) => {
       setUsers(res.data.users);
     });
-    axios.get("http://localhost:3000/api/orders").then((res) => {
+    axios.get(`${baseUrl}/api/orders`).then((res) => {
       setOrders(res.data.orders);
     });
   }, [products]);

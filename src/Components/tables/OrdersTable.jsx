@@ -8,13 +8,14 @@ import {
   TableRow,
 } from "../ui/table";
 import axios from "axios";
+import { baseUrl } from "@/utils/baseUrl";
 
 const OrdersTable = () => {
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/api/orders")
+      .get(`${baseUrl}/api/orders`)
       .then((res) => setOrders(res.data.orders));
   }, []);
 

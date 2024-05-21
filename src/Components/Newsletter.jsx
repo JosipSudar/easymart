@@ -1,3 +1,4 @@
+import { baseUrl } from "@/utils/baseUrl";
 import axios from "axios";
 import { useState } from "react";
 
@@ -8,11 +9,9 @@ const Newsletter = () => {
   const [err, setErr] = useState(false);
 
   const sendEmail = (email) => {
-    axios
-      .post("http://localhost:3000/api/newsletter", { email })
-      .then((res) => {
-        console.log(res);
-      });
+    axios.post(`${baseUrl}/api/newsletter`, { email }).then((res) => {
+      console.log(res);
+    });
   };
 
   const handleSubmit = (e) => {

@@ -32,9 +32,9 @@ Featured.propTypes = {
   image: PropTypes.string.isRequired,
   desc: PropTypes.string,
   name: PropTypes.string,
-  price: PropTypes.string,
-  rating: PropTypes.string,
-  id: PropTypes.number,
+  price: PropTypes.number,
+  rating: PropTypes.number,
+  id: PropTypes.number
 };
 
 export default Featured;

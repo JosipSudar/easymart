@@ -1,1 +1,1 @@
-export const baseUrl = "https://easymart-backend.vercel.app/";
+export const baseUrl = "http://localhost:3000";

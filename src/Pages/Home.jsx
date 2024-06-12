@@ -115,7 +115,7 @@ const Home = () => {
                 to={`/products?category=${category}`}
                 className="p-2 hover:bg-blue-200 rounded-lg scale-110 duration-300 cursor-pointer"
               >
-                <p className="text-lg font-bold">{category}</p>
+                <p className="text-lg font-bold">{category.name}</p>
               </Link>
             ))}
           </div>
